@@ -25,7 +25,7 @@ export default function Home() {
             Contacto
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#gym-register">
-            Registro de Gimnasio
+            Unirme como Gimnasio
           </Link>
         </nav>
       </header>
@@ -42,10 +42,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2">
-                  <Input className="max-w-lg flex-1" placeholder="Código del gimnasio" type="text" />
-                  <Button type="submit">Registrarse</Button>
-                </form>
+                <Button>
+                  <Link href="/athlete-signup">Registrarse</Link>
+                </Button>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Al registrarte, aceptas nuestros términos y condiciones.
                 </p>
