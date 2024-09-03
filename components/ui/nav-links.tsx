@@ -6,14 +6,14 @@ import clsx from 'clsx';
 
 // Mapa de los links que se van a mostrar en el sidenav de la página de Owners
 const links = [
-    { name: 'Home', href: '/owner', },
+    { name: 'Home', href: '/gym', },
     { 
         name: 'Solicitudes', 
-        href: '/owner/solicitudes', 
+        href: '/gym/solicitudes', 
     },
     {
         name: 'Activos',
-        href: '/owner/activos',
+        href: '/gym/activos',
     },
   ];
 
