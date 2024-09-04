@@ -28,9 +28,9 @@ export default function AthleteSignup() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button className="w-full">
-                            <Link href="/athlete">Registrarse como Atleta</Link>
-                        </Button>
+                        <Link href="/athlete" className="w-full">
+                            <Button className="w-full">Registrarse como Atleta</Button>
+                        </Link>
                     </CardFooter>
                 </Card>
             </form>

@@ -1,13 +1,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
-        <Link className="flex items-center justify-center" href="#">
+        <Link className="flex items-center justify-center" href="/">
           <MedicalIcon className="h-6 w-6" />
           <span className="sr-only">Kenzen App</span>
         </Link>
@@ -24,7 +23,7 @@ export default function Home() {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Contacto
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#gym-register">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/join-as-gym">
             Unirme como Gimnasio
           </Link>
         </nav>
@@ -42,9 +41,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <Button>
-                  <Link href="/athlete-signup">Registrarse</Link>
-                </Button>
+                <Link href="/athlete-signup" className="w-full">
+                  <Button size="lg">Registrarse</Button>
+                </Link>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Al registrarte, aceptas nuestros términos y condiciones.
                 </p>
@@ -58,7 +57,7 @@ export default function Home() {
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
               <Card>
                 <CardHeader>
-                  <CardTitle>1. Regístrate con tu gimnasio</CardTitle>
+                  <CardTitle>Regístrate con tu gimnasio</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p>Usa el código proporcionado por tu gimnasio para crear una cuenta personalizada.</p>
@@ -66,7 +65,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>2. Describe tu lesión</CardTitle>
+                  <CardTitle>Describe tu lesión</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p>Proporciona detalles sobre tu lesión para recibir un plan de rehabilitación adaptado.</p>
@@ -74,7 +73,7 @@ export default function Home() {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>3. Accede a ejercicios personalizados</CardTitle>
+                  <CardTitle>Accede a ejercicios personalizados</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p>Obtén acceso a una biblioteca de ejercicios diseñados específicamente para tu recuperación.</p>
@@ -94,27 +93,9 @@ export default function Home() {
                   Únete a nuestra plataforma y ofrece rehabilitación personalizada a tus atletas.
                 </p>
               </div>
-              <Card className="w-full max-w-sm">
-                <CardHeader>
-                  <CardTitle>Registra tu gimnasio</CardTitle>
-                  <CardDescription>Completa el formulario para comenzar</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form>
-                    <div className="grid w-full items-center gap-4">
-                      <div className="flex flex-col space-y-1.5">
-                        <Input id="name" placeholder="Nombre del gimnasio" />
-                      </div>
-                      <div className="flex flex-col space-y-1.5">
-                        <Input id="email" placeholder="Email" type="email" />
-                      </div>
-                    </div>
-                  </form>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full">Registrar Gimnasio</Button>
-                </CardFooter>
-              </Card>
+              <Link href="/join-as-gym" className="w-full">
+                <Button variant="outline" size="lg">Conoce más</Button>
+              </Link>
             </div>
           </div>
         </section>
