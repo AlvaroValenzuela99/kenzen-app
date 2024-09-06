@@ -35,7 +35,7 @@ export default function Page() {
                   </p>
                 </div>
                 <div className="w-full max-w-sm space-y-2">
-                  <Link href="#">
+                  <Link href="/gym-signup">
                     <Button size="lg" className="w-full min-[400px]:w-auto">Registrar mi gimnasio</Button>
                   </Link>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
