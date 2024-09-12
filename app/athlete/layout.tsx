@@ -9,11 +9,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <span className="sr-only">Kenzen App</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Ejercicios
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Progreso
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="/athlete">
+            Sesiones
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Perfil

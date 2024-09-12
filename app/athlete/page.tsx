@@ -1,22 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { fetchProgram } from "@/lib/data";
 
-export default function Page() {
+export default async function Page() {
+
+  // id ficticio, solo para pruebas!
+  const id = '1';
+  const result = await fetchProgram(id);
+
   return (
     <main>
       <div className="container mx-auto px-4 md:px-6">
         <h1 className="text-3xl font-bold mb-6">Bienvenido, Atleta</h1>
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Tu progreso</CardTitle>
-              <CardDescription>Has completado 3 de 10 sesiones</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Progress value={30} className="w-full" />
-            </CardContent>
-          </Card>
           <Card>
             <CardHeader>
               <CardTitle>Próxima sesión</CardTitle>
@@ -33,6 +30,16 @@ export default function Page() {
               <Button>Comenzar sesión</Button>
             </CardFooter>
           </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Tu progreso</CardTitle>
+              <CardDescription>Has completado 0 de 10 sesiones</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Progress value={0} className="w-full" />
+            </CardContent>
+          </Card>
+
         </div>
       </div>
     </main>
