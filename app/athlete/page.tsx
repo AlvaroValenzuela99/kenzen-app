@@ -5,9 +5,8 @@ import { fetchProgram } from "@/lib/data";
 
 export default async function Page() {
 
-  // id ficticio, solo para pruebas!
-  const id = '1';
-  const result = await fetchProgram(id);
+  // ID ficticio y hardcodeado, solo para desarrollo inicial
+  const programName = await fetchProgram(1);
 
   return (
     <main>
@@ -16,7 +15,7 @@ export default async function Page() {
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Próxima sesión</CardTitle>
+              <CardTitle>Próxima sesión de {programName ? programName.program_name : ''}</CardTitle>
               <CardDescription>Ejercicios para hoy</CardDescription>
             </CardHeader>
             <CardContent>
