@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { fetchProgram } from "@/lib/data";
+import { fetchProgram, fetchCurrentSession } from "@/lib/data";
 
 export default async function Page() {
 
   // ID ficticio y hardcodeado, solo para desarrollo inicial
   const programName = await fetchProgram(1);
+  const currentSession = await fetchCurrentSession(1);
 
   return (
     <main>
@@ -18,6 +19,10 @@ export default async function Page() {
               <CardTitle>Próxima sesión de {programName ? programName.program_name : ''}</CardTitle>
               <CardDescription>Ejercicios para hoy</CardDescription>
             </CardHeader>
+            {/* Párrafo de prueba para ver que se renderiza correctamente la sesion actual */}
+            <CardContent>
+              <p>La sesión actual de tu programa es la número: {currentSession ? currentSession.session_name : ''}</p>       
+            </CardContent>
             <CardContent>
               <ul className="list-disc pl-4 space-y-2">
                 <li>Estiramiento de isquiotibiales</li>
