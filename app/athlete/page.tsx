@@ -7,7 +7,9 @@ export default async function Page() {
 
   // ID ficticio y hardcodeado, solo para desarrollo inicial
   const programName = await fetchProgram(1);
+
   const currentSession = await fetchCurrentSession(1);
+  const exercises = currentSession?.exercises;
 
   return (
     <main>
@@ -16,18 +18,20 @@ export default async function Page() {
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Próxima sesión de {programName ? programName.program_name : ''}</CardTitle>
+              <CardTitle>Próxima sesión de {programName?.program_name}</CardTitle>
               <CardDescription>Ejercicios para hoy</CardDescription>
             </CardHeader>
-            {/* Párrafo de prueba para ver que se renderiza correctamente la sesion actual */}
             <CardContent>
-              <p>La sesión actual de tu programa es la número: {currentSession ? currentSession.session_name : ''}</p>       
+              <p>{currentSession?.session_name}</p>
             </CardContent>
             <CardContent>
               <ul className="list-disc pl-4 space-y-2">
-                <li>Estiramiento de isquiotibiales</li>
+                {/* <li>Estiramiento de isquiotibiales</li>
                 <li>Fortalecimiento de cuádriceps</li>
-                <li>Ejercicios de equilibrio</li>
+                <li>Ejercicios de equilibrio</li> */}
+                {exercises?.map((exercise:any, index:number) => (
+                  <li key={index}>{exercise.exercise_name}</li>
+                ))}
               </ul>
             </CardContent>
             <CardFooter>
