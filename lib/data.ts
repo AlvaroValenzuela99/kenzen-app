@@ -1,24 +1,16 @@
 import { sql } from '@vercel/postgres';
 import { ProgramName, Session } from './definitions'
 
-// Va a recibir el athlete_id y va a devolver el athlete_program_id que tiene asociado
-// FALTA DEFINIR LOS TIPOS!!
-export async function fetchAthleteProgram(id: number) {
-  try {
-    const data = await sql`SELECT athlete_programs_id FROM athlete_progams
-                            WHERE athlete_id = ${id}`;
-    return data.rows[0];
-  } catch (error) {
-    console.log('Error recuperando la intersección entre atleta y programa:', error)
-  }
-}
-
-// Modificarlo para que acepte el athlete_id y de ahí saca el program asignado a través de athlete_programs
+// Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(id: number): Promise<ProgramName | undefined> {
   try {
-    const data = await sql<ProgramName> `SELECT program_name FROM programs
-                                          WHERE program_id = ${id}`;
-    return data.rows[0];
+
+    const athleteProgram = await sql`SELECT program_id FROM athlete_programs
+                            WHERE athlete_id = ${id}`;
+
+    const returnedProgram = await sql<ProgramName> `SELECT program_name FROM programs
+                                                    WHERE program_id = ${athleteProgram.rows[0].program_id}`;
+    return returnedProgram.rows[0];
   } catch (error) {
     console.log('Error recuperando el programa asignado al atleta:',error);
     return undefined;

@@ -13,9 +13,8 @@ export type Program = {
   description: string;
 };
 
-export type ProgramName = {
-  program_name: string;
-};
+// Para renderizar sólo el nombre del programa
+export type ProgramName = Pick<Program, 'program_name'>;
 
 export type Session = {
   session_id: number;
