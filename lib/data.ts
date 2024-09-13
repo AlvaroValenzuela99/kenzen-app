@@ -2,6 +2,7 @@ import { sql } from '@vercel/postgres';
 import { ProgramName, Session } from './definitions'
 
 // Va a recibir el athlete_id y va a devolver el athlete_program_id que tiene asociado
+// FALTA DEFINIR LOS TIPOS!!
 export async function fetchAthleteProgram(id: number) {
   try {
     const data = await sql`SELECT athlete_programs_id FROM athlete_progams
@@ -26,6 +27,7 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 
 // Va a recibir como parámetro el athlete_program_id que se recibe
 // Busca la sesión que tiene en curso a partir de athlete_programs
+// FALTA DEFINIR LOS TIPOS!
 export async function fetchCurrentSession(id: number) {
   try {
     const currentProgram = await sql`SELECT program_id FROM athlete_programs
