@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -26,16 +27,15 @@ export default async function Page() {
             </CardContent>
             <CardContent>
               <ul className="list-disc pl-4 space-y-2">
-                {/* <li>Estiramiento de isquiotibiales</li>
-                <li>Fortalecimiento de cuádriceps</li>
-                <li>Ejercicios de equilibrio</li> */}
                 {exercises?.map((exercise:any, index:number) => (
                   <li key={index}>{exercise.exercise_name}</li>
                 ))}
               </ul>
             </CardContent>
             <CardFooter>
-              <Button>Comenzar sesión</Button>
+              <Link href="/athlete/session">
+                <Button>Comenzar sesión</Button>
+              </Link>
             </CardFooter>
           </Card>
           <Card>
