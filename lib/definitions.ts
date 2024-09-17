@@ -22,3 +22,20 @@ export type Session = {
   session_number: number;
   session_name: string;
 }
+
+export type Exercise = {
+  exercise_id: number;
+  exercise_name: string;
+  description: string;
+  objective: string;
+  reps: string;
+  sets: string;
+  equipment: string;
+  video_url: string;
+  completed?: boolean;
+}
+
+export type SessionData = {
+  session_name: string;
+  exercises: Exercise[];
+};
