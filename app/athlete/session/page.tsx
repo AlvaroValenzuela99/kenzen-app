@@ -1,5 +1,4 @@
 import { fetchCurrentSession } from "@/lib/data";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Session from "@/components/ui/session";
 
 export default async function Page() {

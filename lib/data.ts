@@ -53,7 +53,7 @@ export async function fetchCurrentSession(id: number): Promise<SessionData | und
       sets: row.sets,
       equipment: row.equipment,
       video_url: row.video_url,
-      completed: false // Añade el campo `completed` aquí con el valor por defecto `false`
+      completed: false
     }));
 
     return {
