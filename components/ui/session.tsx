@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
 import { Dumbbell, ArrowLeft, CheckCircle } from "lucide-react"
 import { Exercise } from "@/lib/definitions";
+import ExerciseDetails from "./exercise-details";
 
 
 export default function Session({ initialExercises }: { initialExercises: Exercise[] }) {
@@ -59,7 +60,7 @@ export default function Session({ initialExercises }: { initialExercises: Exerci
                   <p>Descripción del ejercicio e instrucciones detalladas irían aquí.</p>
                 </CardContent>
                 <CardFooter>
-                  <Button variant="outline" className="w-full">Ver detalles</Button>
+                  <ExerciseDetails exercise={exercise}></ExerciseDetails>
                 </CardFooter>
               </Card>
             ))}
