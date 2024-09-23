@@ -2,7 +2,7 @@ import { Exercise } from "@/lib/definitions";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlayCircle, Info } from "lucide-react";
+import { Dumbbell, PlayCircle, Info } from "lucide-react";
 
 export default function ExerciseDetails({ exercise }: { exercise: Exercise }) {
   return (
@@ -29,7 +29,10 @@ export default function ExerciseDetails({ exercise }: { exercise: Exercise }) {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Series y Repeticiones</CardTitle>
+              <CardTitle className="flex items-center">
+                <Dumbbell className="mr-2 h-4 w-4" />
+                Series y Repeticiones
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p>{exercise.sets} series de {exercise.reps} repeticiones</p>
