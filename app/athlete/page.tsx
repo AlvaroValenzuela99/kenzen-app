@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { fetchProgram, fetchCurrentSession } from "@/lib/data";
+import { revalidatePath } from 'next/cache';
 
 export default async function Page() {
 
@@ -11,6 +12,8 @@ export default async function Page() {
 
   const currentSession = await fetchCurrentSession(1);
   const exercises = currentSession?.exercises;
+
+  revalidatePath('/athlete')
 
   return (
     <main>

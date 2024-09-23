@@ -7,7 +7,7 @@ export default async function Page() {
   const currentSession = await fetchCurrentSession(1);
   const exercises = currentSession?.exercises ?? [];
 
-  revalidatePath('/athlete')
+  revalidatePath('/athlete/session')
 
   return (
     <main>
