@@ -1,14 +1,13 @@
 'use client';
 
-import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox"
-import { Progress } from "@/components/ui/progress"
-import { Dumbbell, ArrowLeft, CheckCircle } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+import { CheckCircle } from "lucide-react";
 import { Exercise } from "@/lib/definitions";
-import ExerciseDetails from "./exercise-details";
+import ExerciseDetails from "@/components/ui/exercise-details";
 
 
 export default function Session({ initialExercises }: { initialExercises: Exercise[] }) {

@@ -1,10 +1,13 @@
 import { fetchCurrentSession } from "@/lib/data";
 import Session from "@/components/ui/session";
+import { revalidatePath } from 'next/cache';
 
 export default async function Page() {
 
   const currentSession = await fetchCurrentSession(1);
   const exercises = currentSession?.exercises ?? [];
+
+  revalidatePath('/athlete')
 
   return (
     <main>
