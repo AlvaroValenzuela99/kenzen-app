@@ -1,21 +1,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from 'next/image';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link className="flex items-center justify-center" href="/">
-          <MedicalIcon className="h-6 w-6" />
-          <span className="sr-only">Kenzen App</span>
+          <Image 
+            src="/kenzen.png"
+            width={94}
+            height={27}
+            className="hidden md:block"
+            alt="Kenzen App Logo"
+          />
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#caracteristicas">
             Características
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Precios
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Acerca de
@@ -51,32 +54,32 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800" id="caracteristicas">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Cómo funciona</h2>
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
-              <Card>
+              <Card className="flex flex-col min-h-[250px]">
                 <CardHeader>
-                  <CardTitle>Regístrate con tu gimnasio</CardTitle>
+                  <CardTitle>Regístrate en la plataforma</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p>Usa el código proporcionado por tu gimnasio para crear una cuenta personalizada.</p>
+                <CardContent className="flex-grow">
+                  <p>Crea tu cuenta personalizada utilizando el código único que te proporcionará tu gimnasio.</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="flex flex-col min-h-[250px]">
                 <CardHeader>
-                  <CardTitle>Describe tu lesión</CardTitle>
+                  <CardTitle>Recibe tu plan de rehabilitación</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p>Proporciona detalles sobre tu lesión para recibir un plan de rehabilitación adaptado.</p>
+                <CardContent className="flex-grow">
+                  <p>Tu gimnasio te asignará un programa predefinido según tu lesión.</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="flex flex-col min-h-[250px]">
                 <CardHeader>
-                  <CardTitle>Accede a ejercicios personalizados</CardTitle>
+                  <CardTitle>Realiza tus ejercicios personalizados</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p>Obtén acceso a una biblioteca de ejercicios diseñados específicamente para tu recuperación.</p>
+                <CardContent className="flex-grow">
+                  <p>Accede a tu programa de ejercicios, con videos y guías diseñados para tu recuperación. Sigue tu progreso desde cualquier lugar, en casa, o en tu centro de entrenamiento.</p>
                 </CardContent>
               </Card>
             </div>
@@ -112,30 +115,5 @@ export default function Home() {
         </nav>
       </footer>
     </div>
-  )
-}
-
-interface MedicalIconProps extends React.SVGProps<SVGSVGElement> {}
-
-const MedicalIcon: React.FC<MedicalIconProps> = (props) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M8 20h8" />
-      <path d="M12 4v16" />
-      <path d="M20 8h-8" />
-      <path d="M8 16h8" />
-      <path d="M8 12h8" />
-    </svg>
   )
 }
