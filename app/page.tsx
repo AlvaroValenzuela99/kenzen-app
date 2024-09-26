@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from 'next/image';
+import { Users, TrendingUp, CheckCircle, Star } from "lucide-react";
 
 export default function Home() {
   return (
@@ -17,14 +18,14 @@ export default function Home() {
           />
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#caracteristicas">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
             Características
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Acerca de
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#how-it-works">
+            Cómo funciona
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Contacto
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
+            Testimonios
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="/join-as-gym">
             Unirme como Gimnasio
@@ -32,14 +33,14 @@ export default function Home() {
         </nav>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 justify-center place-content-center">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-cover bg-center" style={{backgroundImage: 'url("/placeholder.svg?height=600&width=800")'}}>
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                   Rehabilitación personalizada para atletas
                 </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
                   Accede a ejercicios específicos para tu lesión y recupera tu forma física de manera segura y eficiente.
                 </p>
               </div>
@@ -54,51 +55,104 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800" id="caracteristicas">
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"> 
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Cómo funciona</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Características principales</h2>
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
-              <Card className="flex flex-col min-h-[250px]">
+              <Card>
                 <CardHeader>
-                  <CardTitle>Regístrate en la plataforma</CardTitle>
+                  <Users className="h-8 w-8 mb-2 text-primary" />
+                  <CardTitle>Planes personalizados</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p>Crea tu cuenta personalizada utilizando el código único que te proporcionará tu gimnasio.</p>
+                <CardContent>
+                  <p>Recibe un plan de rehabilitación adaptado a tu lesión específica y nivel de condición física.</p>
                 </CardContent>
               </Card>
-              <Card className="flex flex-col min-h-[250px]">
+              <Card>
                 <CardHeader>
-                  <CardTitle>Recibe tu plan de rehabilitación</CardTitle>
+                  <TrendingUp className="h-8 w-8 mb-2 text-primary" />
+                  <CardTitle>Seguimiento de progreso</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p>Tu gimnasio te asignará un programa predefinido según tu lesión.</p>
+                <CardContent>
+                  <p>Monitorea tu avance con métricas detalladas y ajusta tu plan según sea necesario.</p>
                 </CardContent>
               </Card>
-              <Card className="flex flex-col min-h-[250px]">
+              <Card>
                 <CardHeader>
-                  <CardTitle>Realiza tus ejercicios personalizados</CardTitle>
+                  <CheckCircle className="h-8 w-8 mb-2 text-primary" />
+                  <CardTitle>Ejercicios guiados</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p>Accede a tu programa de ejercicios, con videos y guías diseñados para tu recuperación. Sigue tu progreso desde cualquier lugar, en casa, o en tu centro de entrenamiento.</p>
+                <CardContent>
+                  <p>Accede a videos demostrativos y instrucciones detalladas para cada ejercicio.</p>
                 </CardContent>
               </Card>
             </div>
           </div>
         </section>
-        <section id="gym-register" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  Registro para Gimnasios
-                </h2>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Únete a nuestra plataforma y ofrece rehabilitación personalizada a tus atletas.
-                </p>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Cómo funciona</h2>
+              <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-primary text-primary-foreground rounded-full p-3 mb-4">
+                    <span className="text-2xl font-bold">1</span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Regístrate en la plataforma</h3>
+                  <p>Crea tu cuenta personalizada utilizando el código único que te proporcionará tu gimnasio.</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-primary text-primary-foreground rounded-full p-3 mb-4">
+                    <span className="text-2xl font-bold">2</span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Recibe tu plan de rehabilitación</h3>
+                  <p>Tu gimnasio te asignará un programa predefinido según tu lesión</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-primary text-primary-foreground rounded-full p-3 mb-4">
+                    <span className="text-2xl font-bold">3</span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Realiza tus ejercicios personalizados</h3>
+                  <p>Accede a tu programa de ejercicios, con videos y guías diseñados para tu recuperación. Sigue tu progreso desde cualquier lugar, en casa, o en tu centro de entrenamiento.</p>
+                </div>
               </div>
-              <Link href="/join-as-gym" className="w-full">
-                <Button variant="outline" size="lg">Conoce más</Button>
-              </Link>
+          </div>
+        </section>
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Lo que dicen nuestros usuarios</h2>
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-start">
+              <Card>
+                <CardHeader>
+                  <CardTitle>María G.</CardTitle>
+                  <CardDescription>Atleta de CrossFit</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>"GymRehab me ayudó a recuperarme de una lesión de rodilla en tiempo récord. Los ejercicios personalizados fueron clave."</p>
+                </CardContent>
+                <CardFooter>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-current text-yellow-500" />
+                    ))}
+                  </div>
+                </CardFooter>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Carlos R.</CardTitle>
+                  <CardDescription>Entrenador personal</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>"Como entrenador, GymRehab me ha permitido ofrecer un mejor servicio a mis clientes en recuperación. Una herramienta imprescindible."</p>
+                </CardContent>
+                <CardFooter>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-current text-yellow-500" />
+                    ))}
+                  </div>
+                </CardFooter>
+              </Card>
             </div>
           </div>
         </section>
