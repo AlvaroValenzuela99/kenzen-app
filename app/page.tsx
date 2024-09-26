@@ -127,7 +127,7 @@ export default function Home() {
                   <CardDescription>Atleta de CrossFit</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>"GymRehab me ayudó a recuperarme de una lesión de rodilla en tiempo récord. Los ejercicios personalizados fueron clave."</p>
+                  <p>"Kenzen me ayudó a recuperarme de una lesión de rodilla en tiempo récord. Los ejercicios personalizados fueron clave."</p>
                 </CardContent>
                 <CardFooter>
                   <div className="flex">
@@ -143,7 +143,7 @@ export default function Home() {
                   <CardDescription>Entrenador personal</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>"Como entrenador, GymRehab me ha permitido ofrecer un mejor servicio a mis clientes en recuperación. Una herramienta imprescindible."</p>
+                  <p>"Como entrenador, Kenzen me ha permitido ofrecer un mejor servicio a mis clientes en recuperación. Una herramienta imprescindible."</p>
                 </CardContent>
                 <CardFooter>
                   <div className="flex">
