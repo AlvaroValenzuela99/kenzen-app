@@ -9,11 +9,11 @@ export default function GymSignup() {
     <>
       <form>
         <Card>
-          <CardHeader>
+          <CardHeader className="text-center">
             <CardTitle>Registro de Gimnasio</CardTitle>
             <CardDescription>Completa el formulario para unirte a Kenzen App</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="gym-name">Nombre del gimnasio</Label>
               <Input id="gym-name" placeholder="Ingresa el nombre de tu gimnasio" type="text" />

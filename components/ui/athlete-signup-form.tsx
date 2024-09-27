@@ -9,11 +9,11 @@ export default function AthleteSignup() {
         <>
           <form>
             <Card>
-              <CardHeader>
+              <CardHeader className="text-center">
                 <CardTitle>Registro de Atleta</CardTitle>
                 <CardDescription>Ingresa tus datos para comenzar tu rehabilitación.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-4">
                 <div className="space-y-1">
                   <Label htmlFor="gym-code">Código del gimnasio</Label>
                   <Input id="gym-code" placeholder="Ingresa el código de tu gimnasio" type="text"/>

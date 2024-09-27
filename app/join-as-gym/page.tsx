@@ -59,30 +59,30 @@ export default function Page() {
             <div className="container mx-auto px-4 md:px-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Características para Gimnasios</h2>
               <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
-                <Card>
+                <Card className="flex flex-col h-full">
                   <CardHeader>
                     <Users className="h-8 w-8 mb-2 text-primary" />
                     <CardTitle>Gestión de Atletas</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-grow">
                     <p>Administra fácilmente a tus atletas, sus lesiones y su progreso en la plataforma.</p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="flex flex-col h-full">
                   <CardHeader>
                     <TrendingUp className="h-8 w-8 mb-2 text-primary" />
                     <CardTitle>Seguimiento de Progreso</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-grow">
                     <p>Monitorea el avance de tus atletas y ajusta sus planes de rehabilitación en tiempo real.</p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="flex flex-col h-full">
                   <CardHeader>
                     <Dumbbell className="h-8 w-8 mb-2 text-primary" />
                     <CardTitle>Biblioteca de Ejercicios</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-grow">
                     <p>Accede a una amplia biblioteca de ejercicios de rehabilitación con videos e instrucciones detalladas.</p>
                   </CardContent>
                 </Card>

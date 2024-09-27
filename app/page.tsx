@@ -59,30 +59,30 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Características principales</h2>
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12 items-start">
-              <Card>
+              <Card className="flex flex-col h-full">
                 <CardHeader>
                   <Users className="h-8 w-8 mb-2 text-primary" />
                   <CardTitle>Planes personalizados</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>Recibe un plan de rehabilitación adaptado a tu lesión específica y nivel de condición física.</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="flex flex-col h-full">
                 <CardHeader>
                   <TrendingUp className="h-8 w-8 mb-2 text-primary" />
                   <CardTitle>Seguimiento de progreso</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>Monitorea tu avance con métricas detalladas y ajusta tu plan según sea necesario.</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="flex flex-col h-full">
                 <CardHeader>
                   <CheckCircle className="h-8 w-8 mb-2 text-primary" />
                   <CardTitle>Ejercicios guiados</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>Accede a videos demostrativos y instrucciones detalladas para cada ejercicio.</p>
                 </CardContent>
               </Card>
