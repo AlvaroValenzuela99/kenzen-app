@@ -1,11 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
 import { Exercise, ProgramName, SessionData } from './definitions';
 
-// Inicializa el cliente de Supabase
-const supabase = createClient();
-
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(id: number): Promise<ProgramName | undefined> {
+  // Inicializa el cliente de Supabase
+  const supabase = createClient();
   try {
     // Obtener el program_id correspondiente al atleta
     const { data: athleteProgram, error: programError } = await supabase
@@ -43,6 +42,8 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 
 // Busca la sesión que tiene en curso a partir de athlete_programs, y devuelve el nombre de la sesión y los ejercicios correspondientes
 export async function fetchCurrentSession(id: number): Promise<SessionData | undefined> {
+  // Inicializa el cliente de Supabase
+  const supabase = createClient();
   try {
     // Obtener el programa y la sesión actual del atleta
     const { data: currentProgram, error: currentProgramError } = await supabase
