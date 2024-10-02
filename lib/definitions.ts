@@ -1,5 +1,5 @@
 export type AthleteProgram = {
-  athlete_programs_id: number;
+  athlete_program_id: number;
   athlete_id: number;
   program_id: number;
   completed: number;

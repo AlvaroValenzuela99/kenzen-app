@@ -1,21 +1,42 @@
-import { sql } from '@vercel/postgres';
-import { Exercise, ProgramName, SessionData } from './definitions'
+import { createClient } from '@/utils/supabase/server';
+import { Exercise, ProgramName, SessionData } from './definitions';
+
+// Inicializa el cliente de Supabase
+const supabase = createClient();
 
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(id: number): Promise<ProgramName | undefined> {
   try {
     // Obtener el program_id correspondiente al atleta
-    const athleteProgram = await sql`SELECT program_id FROM athlete_programs
-                            WHERE athlete_id = ${id}`;
+    const { data: athleteProgram, error: programError } = await supabase
+      .from('athlete_programs')
+      .select('program_id')
+      .eq('athlete_id', id)
+      .single();
 
-    const programId = athleteProgram.rows[0].program_id;
+    if (programError) {
+      throw new Error(programError.message);
+    }
+
+    const programId = athleteProgram.program_id;
 
     // Obtener el programa actual del atleta
-    const returnedProgram = await sql<ProgramName> `SELECT program_name FROM programs
-                                                    WHERE program_id = ${programId}`;
-    return returnedProgram.rows[0];
+    const { data: returnedProgram, error: programDataError } = await supabase
+    .from('programs') // Solo especificamos el tipo de fila
+    .select('program_name')
+    .eq('program_id', programId)
+    .single();
+
+    if (programDataError) {
+      console.error('Error recuperando el programa:', programDataError);
+      throw new Error('Error recuperando el programa.');
+    }
+
+    if (returnedProgram) {
+      return returnedProgram as ProgramName; // Hacemos un type assertion
+    }
   } catch (error) {
-    console.log('Error recuperando el programa asignado al atleta:',error);
+    console.log('Error recuperando el programa asignado al atleta:', error);
     return undefined;
   }
 }
@@ -24,27 +45,61 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 export async function fetchCurrentSession(id: number): Promise<SessionData | undefined> {
   try {
     // Obtener el programa y la sesión actual del atleta
-    const currentProgram = await sql`SELECT program_id, current_session FROM athlete_programs
-                                      WHERE athlete_programs_id = ${id}`;
+    const { data: currentProgram, error: currentProgramError } = await supabase
+      .from('athlete_programs')
+      .select('program_id, current_session')
+      .eq('athlete_program_id', id)
+      .single();
 
-    const programId = currentProgram.rows[0].program_id;
-    const sessionNumber = currentProgram.rows[0].current_session;
- 
-    // Obtener el session_id correspondiente al programa y número de sesión actual
-    const sessionInfo = await sql`SELECT session_id, session_name FROM sessions
-                                  WHERE program_id = ${programId}
-                                  AND session_number = ${sessionNumber}`;
+    if (currentProgramError) {
+      console.error('Error recuperando el programa y sesión actual:', currentProgramError);
+      throw new Error('Error recuperando el programa y sesión actual.');
+    }
 
-    const sessionID = sessionInfo.rows[0].session_id;
+    const programId = currentProgram.program_id;
+    const sessionNumber = currentProgram.current_session;
+
+    // Obtener la información de la sesión
+    const { data: sessionInfo, error: sessionInfoError } = await supabase
+      .from('sessions')
+      .select('session_id, session_name')
+      .eq('program_id', programId)
+      .eq('session_number', sessionNumber)
+      .single();
+
+    if (sessionInfoError) {
+      console.error('Error recuperando la sesión:', sessionInfoError);
+      throw new Error('Error recuperando la sesión.');
+    }
+
+    const sessionID = sessionInfo.session_id;
 
     // Obtener los ejercicios correspondientes a la sesión actual
-    const exercisesQuery = await sql`SELECT e.exercise_id, e.exercise_name, e.description, e.objective, e.reps, e.sets, e.equipment, e.video_url
-                                  FROM exercises e
-                                  JOIN session_exercises se ON e.exercise_id = se.exercise_id
-                                  WHERE se.session_id = ${sessionID}`;
+    const { data: exercisesQuery, error: exercisesQueryError } = await supabase
+      .from('session_exercises')
+      .select('exercise_id')
+      .eq('session_id', sessionID);
+
+    if (exercisesQueryError) {
+      console.error('Error recuperando los ejercicios de la sesión:', exercisesQueryError);
+      throw new Error('Error recuperando los ejercicios de la sesión.');
+    }
+
+    // Obtener los detalles de los ejercicios usando los IDs obtenidos
+    const exerciseIds = exercisesQuery.map(exercise => exercise.exercise_id);
+
+    const { data: exercisesDetails, error: exercisesDetailsError } = await supabase
+      .from('exercises')
+      .select('exercise_id, exercise_name, description, objective, reps, sets, equipment, video_url')
+      .in('exercise_id', exerciseIds);
+
+    if (exercisesDetailsError) {
+      console.error('Error recuperando los detalles de los ejercicios:', exercisesDetailsError);
+      throw new Error('Error recuperando los detalles de los ejercicios.');
+    }
 
     // Mapea el resultado al tipo Exercise, añadiendo la propiedad 'completed' como false
-    const exercises: Exercise[] = exercisesQuery.rows.map((row: any) => ({
+    const exercises: Exercise[] = exercisesDetails.map(row => ({
       exercise_id: row.exercise_id,
       exercise_name: row.exercise_name,
       description: row.description,
@@ -57,11 +112,11 @@ export async function fetchCurrentSession(id: number): Promise<SessionData | und
     }));
 
     return {
-      session_name: sessionInfo.rows[0].session_name,
+      session_name: sessionInfo.session_name,
       exercises: exercises
     };
   } catch (error) {
-    console.log('Error recuperando la sesión actual:',error);
+    console.log('Error recuperando la sesión actual:', error);
     return undefined;
   }
 }
