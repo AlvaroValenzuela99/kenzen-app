@@ -17,8 +17,7 @@ Kenzen App permite a los gimnasios asignar a sus atletas programas de rehabilita
 - **Frontend:** Next.js
 - **Backend:** Supabase
 - **Base de Datos:** PostgreSQL
-- **Gestión de Estado:** React Context API (si se usa)
-- **Estilo:** Tailwind CSS (si se usa)
+- **Estilo:** Tailwind CSS
 
 ## Uso
 
