@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from 'next/image';
 import { signOut } from "../login/actions";
-import { Button } from "@/components/ui/button";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
