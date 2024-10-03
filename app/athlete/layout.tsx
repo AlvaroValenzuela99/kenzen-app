@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from 'next/image';
+import { signOut } from "../login/actions";
+import { Button } from "@/components/ui/button";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,6 +23,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
             Perfil
           </Link>
+          {/* Formulario que invoca la acción de cierre de sesión */}
+          <form action={signOut} className="flex items-center">
+            <button type="submit" className="text-sm font-medium hover:underline underline-offset-4">
+              Cerrar sesión
+            </button>
+          </form>
         </nav>
       </header>
       <div className="flex-1 py-12 md:py-24 lg:py-32">{children}</div>
