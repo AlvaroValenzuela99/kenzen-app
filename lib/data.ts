@@ -127,22 +127,21 @@ export async function getGymIdByGymCode(gymCode: string) {
   const supabase = createClient();
 
   try{
-    const {data: gymId, error: gymIdError} = await supabase
+    const {data, error} = await supabase
     .from('gyms')
     .select('gym_id')
     .eq('gym_code', gymCode)
+    .single()
 
-    if (gymIdError) {
-      console.log('Error recuperando el gimnasio:',gymIdError)
-      throw new Error('Error recuperando el gimnasio')
+    if (error) {
+      console.log('Error recuperando el gimnasio:', error)
+      return null
     }
 
-    if (gymId) {
-      return gymId;
-    }
+    return data?.gym_id || null
 
   } catch (error) {
     console.log('Error recuperando el gimnasio por código de gimnasio:', error)
-    return undefined;
+    return null;
   }
 }

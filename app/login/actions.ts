@@ -34,37 +34,43 @@ export async function signUpAthlete(formData: FormData) {
   const supabase = createClient()
 
   const gymCode = formData.get('gym-code') as string
+  const email = formData.get('athlete-email') as string
+  const password = formData.get('athlete-password') as string
+  const firstName = formData.get('first-name') as string
+  const lastName = formData.get('last-name') as string
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const userData = {
-    email: formData.get('athlete-email') as string,
-    password: formData.get('athlete-password') as string,
+  // Verificar el gymCode antes de continuar
+  const gymId = await getGymIdByGymCode(gymCode)
+
+  if (!gymId) {
+    return {success: false, error: 'El código de gimnasio no es válido'}
+  }
+
+  // Registrar al usuario en Supabase (auth.users)
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
     options: {
       data: {
         gym_code: gymCode,
-        first_name: formData.get('first-name') as string,
-        last_name: formData.get('last-name') as string,
-      }
-    }
-  }
-
-  const { data, error } = await supabase.auth.signUp(userData)
+        first_name: firstName,
+        last_name: lastName,
+      },
+    },
+  })
 
   if (error) {
-    redirect('/error')
+    return { success: false, error: 'Error al crear la cuenta. Inténtalo de nuevo.' }
   }
 
   const userId = data.user?.id
 
-  // Obtener el id del gimnasio por código de gimnasio introducido
-  const gymId = await getGymIdByGymCode(gymCode)
-  
+  // Guardar los datos en la tabla athletes
   const athleteData = {
     athlete_id: userId,
-    email: formData.get('athlete_email') as string,
-    first_name: formData.get('first-name') as string,
-    last_name: formData.get('last-name') as string,
+    email,
+    first_name: firstName,
+    last_name: lastName,
     gym_id: gymId,
   }
 
@@ -73,14 +79,11 @@ export async function signUpAthlete(formData: FormData) {
     .from('athletes')
     .insert(athleteData)
 
-  //if (insertError) {
-    // Opcional: Eliminar el usuario creado si falla la insercion
-    //await supabase.auth.admin.deleteUser(userId)
-    //redirect('/error')
-  //}
-  
-  revalidatePath('/', 'layout')
-  redirect('/')
+  if (insertError) {
+    return { success: false, error: 'Error al guardar los datos del atleta. Inténtalo de nuevo.' }
+  }
+
+  return { success: true }
 }
 
 export async function signUpGym(formdata: FormData) {
