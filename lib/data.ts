@@ -121,3 +121,28 @@ export async function fetchCurrentSession(id: number): Promise<SessionData | und
     return undefined;
   }
 }
+
+export async function getGymIdByGymCode(gymCode: string) {
+  // Inicializa el cliente de Supabase
+  const supabase = createClient();
+
+  try{
+    const {data: gymId, error: gymIdError} = await supabase
+    .from('gyms')
+    .select('gym_id')
+    .eq('gym_code', gymCode)
+
+    if (gymIdError) {
+      console.log('Error recuperando el gimnasio:',gymIdError)
+      throw new Error('Error recuperando el gimnasio')
+    }
+
+    if (gymId) {
+      return gymId;
+    }
+
+  } catch (error) {
+    console.log('Error recuperando el gimnasio por código de gimnasio:', error)
+    return undefined;
+  }
+}

@@ -19,6 +19,14 @@ export default function AthleteSignup() {
                   <Input id="gym-code" placeholder="Ingresa el código de tu gimnasio" type="text"/>
                 </div>
                 <div className="space-y-1">
+                  <Label htmlFor="first-name">Nombre</Label>
+                  <Input id="first-name" placeholder="Nombre" type="text"/>
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="last-name">Apellidos</Label>
+                  <Input id="last-name" placeholder="Apellidos" type="text"/>
+                </div>
+                <div className="space-y-1">
                   <Label htmlFor="athlete-email">Email</Label>
                   <Input id="athlete-email" placeholder="tu@email.com" type="email" />
                 </div>
