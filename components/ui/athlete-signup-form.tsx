@@ -77,7 +77,7 @@ export default function AthleteSignup() {
             </Card>
           </form>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-              Al registrarte, aceptas nuestros términos y condiciones.
+            Al registrarte, aceptas nuestros términos y condiciones.
           </p>
         </>
     )

@@ -52,7 +52,7 @@ export async function signUpAthlete(formData: FormData) {
     password,
     options: {
       data: {
-        gym_code: gymCode,
+        gym_id: gymId,
         first_name: firstName,
         last_name: lastName,
       },
@@ -60,7 +60,7 @@ export async function signUpAthlete(formData: FormData) {
   })
 
   if (error) {
-    return { success: false, error: 'Error al crear la cuenta. Inténtalo de nuevo.' }
+    return { success: false, error: 'Error al crear la cuenta del atleta. Inténtalo de nuevo.' }
   }
 
   const userId = data.user?.id
@@ -86,8 +86,52 @@ export async function signUpAthlete(formData: FormData) {
   return { success: true }
 }
 
-export async function signUpGym(formdata: FormData) {
+export async function signUpGym(formData: FormData) {
   const supabase = createClient()
+
+  const gymName = formData.get('gym-name') as string
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+  const gymCode = gymName.toLowerCase().replace(/ /g, "-")
+
+  console.log("GymCode generado a partir del Gym Name: ", gymCode)
+
+  // Registrar al usuario en Supabase (auth.users)
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        gym_name: gymName,
+        gym_code: gymCode,
+      }
+    }
+  })
+
+  if (error) {
+    return { success: false, error: 'Error al crear la cuenta del gimnasio. Inténtalo de nuevo.' }
+  }
+
+  const userId = data.user?.id
+
+  // Guardar los datos en la tabla gyms
+  const gymData = {
+    gym_id: userId,
+    gym_name: gymName,
+    email,
+    gym_code: gymCode,
+  }
+
+  // Insertar en la tabla gyms
+  const { error: insertError } = await supabase
+  .from('gyms')
+  .insert(gymData)
+
+  if (insertError) {
+    return { success: false, error: 'Error al guardar los datos del gimnasio. Inténtalo de nuevo.' }
+  }
+
+  return { success: true }
 }
 
 // Funcion de SIGNOUT
