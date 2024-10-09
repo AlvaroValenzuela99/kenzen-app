@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from 'next/image';
-import { signOut } from "../login/actions";
+import { signOut } from "../../lib/actions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

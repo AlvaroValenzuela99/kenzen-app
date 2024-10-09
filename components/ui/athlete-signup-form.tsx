@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUpAthlete } from "@/app/login/actions";
+import { signUpAthlete } from "@/lib/actions";
 
 export default function AthleteSignup() {
   const [formError, setFormError] = useState('')

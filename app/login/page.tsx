@@ -1,14 +1,17 @@
-import { login } from './actions'
+import LoginForm from "@/components/ui/login-form"
 
-export default function LoginPage() {
+export default function Page() {
   return (
-    <form>
-      <label htmlFor="email">Email:</label>
-      <input id="email" name="email" type="email" required />
-      <label htmlFor="password">Password:</label>
-      <input id="password" name="password" type="password" required />
-      <button formAction={login}>Log in</button>
-      {/* <button formAction={signup}>Sign up</button> */}
-    </form>
+    <main className="flex-1">
+      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container mx-auto px-4 md:px-6">
+              <div className="flex flex-col items-center space-y-4">
+                  <div className="w-full max-w-sm space-y-2">
+                      <LoginForm />
+                  </div>
+              </div>
+          </div>
+      </section>
+    </main>  
   )
 }

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUpGym } from '@/app/login/actions';
+import { signUpGym } from '@/lib/actions';
 
 export default function GymSignup() {
 const [formError, setFormError] = useState('')

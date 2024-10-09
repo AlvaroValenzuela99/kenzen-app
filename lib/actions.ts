@@ -11,21 +11,40 @@ import { getGymIdByGymCode } from '@/lib/data'
 export async function login(formData: FormData) {
   const supabase = createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+
+  const { data, error } = await supabase.auth.signInWithPassword({email, password})
+
+  if (error || !data.user) {
+    redirect('/error') // Error al iniciar sesión
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  // Verificar si el usuario es un atleta
+  const { data: athleteData, error: athleteError } = await supabase
+    .from('athletes')
+    .select('*')
+    .eq('athlete_id', data.user.id)
+    .single()
 
-  if (error) {
-    redirect('/error')
+  if (athleteData) {
+    redirect('/athlete')
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  // Verificar si el usuario es un gimnasio
+  const { data: gymData, error: gymError } = await supabase
+    .from('gyms')
+    .select('*')
+    .eq('gym_id', data.user.id)
+    .single()
+
+  if (gymData) {
+    redirect('/gym')
+  }
+
+  if (athleteError || gymError) {
+    redirect('/error') // No existe atleta o gimnasio
+  }
 }
 
 // Funciones de SIGNUP
@@ -92,7 +111,7 @@ export async function signUpGym(formData: FormData) {
   const gymName = formData.get('gym-name') as string
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-  const gymCode = gymName.toLowerCase().replace(/ /g, "-")
+  const gymCode = gymName?.toLowerCase().replace(/ /g, "-")
 
   console.log("GymCode generado a partir del Gym Name: ", gymCode)
 
