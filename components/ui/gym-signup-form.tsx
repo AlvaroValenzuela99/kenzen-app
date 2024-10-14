@@ -19,6 +19,17 @@ const handleSubmit = (e: FormEvent) => {
   setFormError('') // Resetear el error antes de enviar el formulario
 
   const formData = new FormData(e.currentTarget as HTMLFormElement)
+
+  const password = formData.get('password') as string
+  const confirmPassword = formData.get('confirmPassword') as string
+
+  if (password !== confirmPassword) {
+    setFormError('Las contraseñas no coinciden.')
+    return
+  }
+
+  // Eliminar el campo confirmPassword ya que no es necesario en el servidor
+  formData.delete('confirmPassword')
   
   // Usar la acción del servidor
   startTransition(async () => {
@@ -45,19 +56,19 @@ const handleSubmit = (e: FormEvent) => {
           <CardContent className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="gym-name">Nombre del gimnasio</Label>
-              <Input id="gym-name" placeholder="Ingresa el nombre de tu gimnasio" type="text" />
+              <Input id="gym-name" name="gym-name" placeholder="Ingresa el nombre de tu gimnasio" type="text" required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="gym-email">Email</Label>
-              <Input id="gym-email" placeholder="tu@gimnasio.com" type="email" />
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" name="email" placeholder="tu@gimnasio.com" type="email" required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="gym-password">Contraseña</Label>
-              <Input id="gym-password" placeholder="Contraseña" type="password" />
+              <Label htmlFor="password">Contraseña</Label>
+              <Input id="password" name="password" placeholder="Contraseña" type="password" required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="gym-confirmPassword">Confirmar contraseña</Label>
-              <Input id="gym-confirmPassword" placeholder="Confirmar contraseña" type="password"/>
+              <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+              <Input id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" type="password" required />
             </div>
             {/* Mostrar mensaje de error si lo hay */}
             {formError && <p className="text-sm text-red-500">{formError}</p>}            

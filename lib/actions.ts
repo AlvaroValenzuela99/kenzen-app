@@ -74,6 +74,7 @@ export async function signUpAthlete(formData: FormData) {
         gym_id: gymId,
         first_name: firstName,
         last_name: lastName,
+        role: 'athlete',
       },
     },
   })
@@ -113,7 +114,8 @@ export async function signUpGym(formData: FormData) {
   const password = formData.get('password') as string
   const gymCode = gymName?.toLowerCase().replace(/ /g, "-")
 
-  console.log("GymCode generado a partir del Gym Name: ", gymCode)
+  console.log("Valor de gymName: ", gymName); //DEBUG
+  console.log("GymCode generado a partir del Gym Name: ", gymCode) //DEBUG
 
   // Registrar al usuario en Supabase (auth.users)
   const { data, error } = await supabase.auth.signUp({
@@ -123,6 +125,7 @@ export async function signUpGym(formData: FormData) {
       data: {
         gym_name: gymName,
         gym_code: gymCode,
+        role: 'gym',
       }
     }
   })
@@ -142,9 +145,11 @@ export async function signUpGym(formData: FormData) {
   }
 
   // Insertar en la tabla gyms
-  const { error: insertError } = await supabase
+  const { data: insertData, error: insertError } = await supabase
   .from('gyms')
   .insert(gymData)
+
+  console.log(insertError)
 
   if (insertError) {
     return { success: false, error: 'Error al guardar los datos del gimnasio. Inténtalo de nuevo.' }
