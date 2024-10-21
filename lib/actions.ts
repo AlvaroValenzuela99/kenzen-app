@@ -53,8 +53,8 @@ export async function signUpAthlete(formData: FormData) {
   const supabase = createClient()
 
   const gymCode = formData.get('gym-code') as string
-  const email = formData.get('athlete-email') as string
-  const password = formData.get('athlete-password') as string
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
   const firstName = formData.get('first-name') as string
   const lastName = formData.get('last-name') as string
 
@@ -95,9 +95,11 @@ export async function signUpAthlete(formData: FormData) {
   }
 
   // Insertar en la tabla athletes
-  const { error: insertError } = await supabase
+  const { data: insertData, error: insertError } = await supabase
     .from('athletes')
     .insert(athleteData)
+
+  console.log(insertError)
 
   if (insertError) {
     return { success: false, error: 'Error al guardar los datos del atleta. Inténtalo de nuevo.' }
