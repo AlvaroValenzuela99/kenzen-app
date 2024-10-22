@@ -50,6 +50,7 @@ export async function login(formData: FormData) {
 // Funciones de SIGNUP
 
 export async function signUpAthlete(formData: FormData) {
+  console.log("signUpAthlete iniciado con formData:", formData) //DEBUG
   const supabase = createClient()
 
   const gymCode = formData.get('gym-code') as string
@@ -80,6 +81,7 @@ export async function signUpAthlete(formData: FormData) {
   })
 
   if (error) {
+    console.log('Supabase signUp error: ', error)
     return { success: false, error: 'Error al crear la cuenta del atleta. Inténtalo de nuevo.' }
   }
 
@@ -93,13 +95,11 @@ export async function signUpAthlete(formData: FormData) {
     last_name: lastName,
     gym_id: gymId,
   }
-
+  
   // Insertar en la tabla athletes
   const { data: insertData, error: insertError } = await supabase
     .from('athletes')
     .insert(athleteData)
-
-  console.log(insertError)
 
   if (insertError) {
     return { success: false, error: 'Error al guardar los datos del atleta. Inténtalo de nuevo.' }

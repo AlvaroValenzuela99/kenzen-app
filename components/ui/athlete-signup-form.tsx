@@ -16,6 +16,7 @@ export default function AthleteSignup() {
   // Manejar el envío del formulario
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    console.log('Envío de formulario iniciado') //DEBUG
     setFormError('') // Resetear el error antes de enviar el formulario
 
     const formData = new FormData(e.currentTarget as HTMLFormElement)
@@ -33,8 +34,10 @@ export default function AthleteSignup() {
 
     // Usar la acción del servidor
     startTransition(async () => {
+      console.log("Ejecutando signUpAthlete...") //DEBUG
       const result = await signUpAthlete(formData)
 
+      console.log("Resultado de signUpAthlete:", result)//DEBUG
       if (!result.success) {
         setFormError(result.error as string) // Mostrar el mensaje de error en caso de fallo
         return
