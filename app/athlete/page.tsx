@@ -4,8 +4,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "@/components/ui/progress";
 import { fetchProgram, fetchCurrentSession } from "@/lib/data";
 import { revalidatePath } from 'next/cache';
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function PrivatePage() {
+  const supabase = createClient()
+
+  const { data, error } =  await supabase.auth.getUser()
+
+  if (error || !data?.user || data?.user?.user_metadata?.role != 'athlete') {
+    console.log('El usuario no es atleta')
+    redirect('/login')
+  }
 
   // ID ficticio y hardcodeado, solo para desarrollo inicial
   const programName = await fetchProgram(1);

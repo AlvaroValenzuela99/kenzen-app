@@ -1,8 +1,18 @@
 import { fetchCurrentSession } from "@/lib/data";
 import Session from "@/components/ui/session";
 import { revalidatePath } from 'next/cache';
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function PrivatePage() {
+  const supabase = createClient()
+
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error || !data?.user || data?.user?.user_metadata?.role != 'athlete') {
+    console.log('El usuario no es atleta')
+    redirect('/login')
+  }
 
   const currentSession = await fetchCurrentSession(1);
   const exercises = currentSession?.exercises ?? [];
