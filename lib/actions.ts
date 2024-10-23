@@ -17,6 +17,7 @@ export async function login(formData: FormData) {
   const { data, error } = await supabase.auth.signInWithPassword({email, password})
 
   if (error || !data.user) {
+    console.log(error)
     redirect('/error') // Error al iniciar sesión
   }
 
@@ -37,7 +38,8 @@ export async function login(formData: FormData) {
     .select('*')
     .eq('gym_id', data.user.id)
     .single()
-
+  console.log(gymData)
+  console.log(gymError)
   if (gymData) {
     redirect('/gym')
   }

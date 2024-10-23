@@ -14,11 +14,11 @@ export default function LoginForm() {
         <CardContent className="space-y-4">
           <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" placeholder="tu@email.com" type="email" />
+            <Input id="email" name="email" placeholder="tu@email.com" type="email" required />
           </div>
           <div className="space-y-1">
             <Label htmlFor="password">Contraseña</Label>
-            <Input id="password" placeholder="contraseña" type="password" />
+            <Input id="password" name="password" placeholder="Contraseña" type="password" required />
           </div>
         </CardContent>
         <CardFooter>

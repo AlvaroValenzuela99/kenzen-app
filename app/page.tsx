@@ -17,7 +17,7 @@ export default function Home() {
             alt="Kenzen App Logo"
           />
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
             Características
           </Link>
@@ -30,6 +30,9 @@ export default function Home() {
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="/join-as-gym">
             Unirme como Gimnasio
           </Link>
+          <Button asChild size="sm">
+            <Link href="/login">Iniciar Sesión</Link>
+          </Button>
         </nav>
       </header>
       <main className="flex-1">
