@@ -18,7 +18,7 @@ export async function login(formData: FormData) {
 
   if (error || !data.user) {
     console.log(error)
-    redirect('/error') // Error al iniciar sesión
+    return {success: false, error: 'Error al iniciar sesión. Usuario no encontrado'}
   }
 
   // Verificar si el usuario es un atleta
@@ -29,7 +29,7 @@ export async function login(formData: FormData) {
     .single()
 
   if (athleteData) {
-    redirect('/athlete')
+    return {success: true, role: 'athlete'}
   }
 
   // Verificar si el usuario es un gimnasio
@@ -38,14 +38,13 @@ export async function login(formData: FormData) {
     .select('*')
     .eq('gym_id', data.user.id)
     .single()
-  console.log(gymData)
-  console.log(gymError)
+
   if (gymData) {
-    redirect('/gym')
+    return {success: true, role: 'gym'}
   }
 
   if (athleteError || gymError) {
-    redirect('/error') // No existe atleta o gimnasio
+    return {success: false, error: 'El usuario no es Atleta ni Gimnasio'}
   }
 }
 

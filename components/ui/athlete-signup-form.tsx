@@ -34,17 +34,17 @@ export default function AthleteSignup() {
 
     // Usar la acción del servidor
     startTransition(async () => {
-      console.log("Ejecutando signUpAthlete...") //DEBUG
+      console.log('Ejecutando signUpAthlete...') //DEBUG
       const result = await signUpAthlete(formData)
 
-      console.log("Resultado de signUpAthlete:", result)//DEBUG
+      console.log('Resultado de signUpAthlete:', result)//DEBUG
       if (!result.success) {
         setFormError(result.error as string) // Mostrar el mensaje de error en caso de fallo
         return
       }
 
-      // Redirigir en caso de éxito
-      router.push('/') // Redirigir al usuario a la página principal
+      // Redirigir en caso de éxito a la pantalla principal
+      router.push('/')
     })
   }
     return (
