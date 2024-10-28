@@ -4,7 +4,7 @@ import { Exercise, ProgramName, SessionData } from './definitions';
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(id: number): Promise<ProgramName | undefined> {
   // Inicializa el cliente de Supabase
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     // Obtener el program_id correspondiente al atleta
     const { data: athleteProgram, error: programError } = await supabase
@@ -43,7 +43,7 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 // Busca la sesión que tiene en curso a partir de athlete_programs, y devuelve el nombre de la sesión y los ejercicios correspondientes
 export async function fetchCurrentSession(id: number): Promise<SessionData | undefined> {
   // Inicializa el cliente de Supabase
-  const supabase = createClient();
+  const supabase = await createClient();
   try {
     // Obtener el programa y la sesión actual del atleta
     const { data: currentProgram, error: currentProgramError } = await supabase
@@ -124,7 +124,7 @@ export async function fetchCurrentSession(id: number): Promise<SessionData | und
 
 export async function getGymIdByGymCode(gymCode: string) {
   // Inicializa el cliente de Supabase
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try{
     const {data, error} = await supabase
@@ -143,5 +143,26 @@ export async function getGymIdByGymCode(gymCode: string) {
   } catch (error) {
     console.log('Error recuperando el gimnasio por código de gimnasio:', error)
     return null;
+  }
+}
+
+export async function getMyAthletes(gymId: string) {
+  const supabase = await createClient()
+
+  try{
+    const {data, error} = await supabase
+    .from('athletes')
+    .select()
+    .eq('gym_id', gymId)
+
+    if (error){
+      console.log('Error recuperando los atletas asociados al gimnasio', error)
+      return null
+    }
+
+    return data;
+  } catch (error) {
+    console.log('Error recuperando los atletas del gimnasio')
+    return undefined;
   }
 }

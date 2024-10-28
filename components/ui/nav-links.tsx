@@ -8,12 +8,12 @@ import clsx from 'clsx';
 const links = [
     { name: 'Home', href: '/gym', },
     { 
-        name: 'Solicitudes', 
-        href: '/gym/solicitudes', 
+        name: 'Mis Atletas', 
+        href: '/gym/athletes', 
     },
     {
-        name: 'Activos',
-        href: '/gym/activos',
+        name: 'Mi Perfil',
+        href: '/gym/profile',
     },
   ];
 

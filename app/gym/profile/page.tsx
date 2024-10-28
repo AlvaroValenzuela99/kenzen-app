@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 
 export default async function PrivatePage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } =  await supabase.auth.getUser()
 
@@ -14,7 +14,7 @@ export default async function PrivatePage() {
     return (
         <main>
             <h1 className="mb-4 text-xl md:text-2x1">
-                Solicitudes
+                Mi Perfil
             </h1>
         </main>
     )

@@ -1,3 +1,4 @@
+import AthletesPrograms from "@/components/ui/athletes-programs";
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 
@@ -12,10 +13,11 @@ export default async function PrivatePage() {
   }
 
     return (
-        <main>
-            <h1 className="mb-4 text-xl md:text-2x1">
-                Activos
-            </h1>
-        </main>
+      <main>
+        <h1 className="mb-4 text-xl md:text-2x1">
+            Mis Atletas
+        </h1>
+        <AthletesPrograms gymId={data?.user?.id}/>
+      </main>
     )
 }

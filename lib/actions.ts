@@ -9,7 +9,7 @@ import { getGymIdByGymCode } from '@/lib/data'
 // Funciones de LOGIN
 
 export async function login(formData: FormData) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -52,7 +52,7 @@ export async function login(formData: FormData) {
 
 export async function signUpAthlete(formData: FormData) {
   console.log("signUpAthlete iniciado con formData:", formData) //DEBUG
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const gymCode = formData.get('gym-code') as string
   const email = formData.get('email') as string
@@ -110,7 +110,7 @@ export async function signUpAthlete(formData: FormData) {
 }
 
 export async function signUpGym(formData: FormData) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const gymName = formData.get('gym-name') as string
   const email = formData.get('email') as string
@@ -164,7 +164,7 @@ export async function signUpGym(formData: FormData) {
 // Funcion de SIGNOUT
 
 export async function signOut() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { error } = await supabase.auth.signOut()
 
