@@ -1,33 +1,84 @@
 import Link from 'next/link';
-import NavLinks from '@/components/ui/nav-links';
-import Image from 'next/image';
 import { signOut } from '@/lib/actions';
-
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
+import { Activity, BarChart, Menu, Settings, Users } from 'lucide-react'
+import { Button } from './button'
 
 export default function SideNav() {
   return (
-    <div className='flex h-full flex-col px-3 py-4 md:px-2'>
-      <Link
-          className="mb-2 flex h-20 items-end justify-start rounded-md bg-gray-50 p-4 md:h-40 text-2xl"
-          href="/join-as-gym"
-      >
-        <Image 
-          src="/kenzen.png"
-          width={94}
-          height={27}
-          className="hidden md:block"
-          alt="Kenzen App Logo"
-        />
-      </Link>
-        <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-          <NavLinks />
-          <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
-          <form action={signOut}>
-              <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-                <div className="hidden md:block">Sign Out</div>
-              </button>
-          </form>
+    <>
+      {/* Sidebar for larger screens */}
+      <aside className="hidden md:flex w-64 flex-col bg-white border-r">
+        <div className="p-4">
+          <Link href="/gym" className="flex items-center space-x-2 text-xl font-bold">
+            <Activity className="h-6 w-6" />
+            <span>Kenzen</span>
+          </Link>
         </div>
-    </div>
+        <nav className="flex-1 p-4">
+          <ul className="space-y-2">
+            <li>
+              <Link href="/gym" className="flex items-center space-x-2 p-2 rounded-lg bg-gray-100 text-gray-900">
+                <Users className="h-5 w-5" />
+                <span>Mis Atletas</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                <BarChart className="h-5 w-5" />
+                <span>Estadísticas</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                <Settings className="h-5 w-5" />
+                <span>Configuración</span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      {/* Mobile sidebar */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="md:hidden absolute top-4 left-4">
+            <Menu className="h-6 w-6" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-64">
+          <SheetHeader>
+            <SheetTitle>
+              <Link href="/gym" className="flex items-center space-x-2 text-xl font-bold">
+                <Activity className="h-6 w-6" />
+                <span>Kenzen</span>
+              </Link>
+            </SheetTitle>
+          </SheetHeader>
+          <nav className="flex-1 pt-4">
+            <ul className="space-y-2">
+              <li>
+                <Link href="/gym" className="flex items-center space-x-2 p-2 rounded-lg bg-gray-100 text-gray-900">
+                  <Users className="h-5 w-5" />
+                  <span>Mis Atletas</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                  <BarChart className="h-5 w-5" />
+                  <span>Estadísticas</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                  <Settings className="h-5 w-5" />
+                  <span>Configuración</span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </SheetContent>
+      </Sheet>
+    </>
   )
 }
