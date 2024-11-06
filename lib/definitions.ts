@@ -39,3 +39,16 @@ export type SessionData = {
   session_name: string;
   exercises: Exercise[];
 };
+
+export type Athlete = {
+  athlete_id: string;
+  first_name: string;
+  last_name: string;
+  created_at: string;
+  email: string;
+  gym_id: string;
+}
+
+export type AthleteWithProgram = Athlete & {
+  program?: ProgramName | undefined;
+}

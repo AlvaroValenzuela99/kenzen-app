@@ -1,8 +1,8 @@
 import { createClient } from '@/utils/supabase/server';
-import { Exercise, ProgramName, SessionData } from './definitions';
+import { Athlete, Exercise, ProgramName, SessionData } from './definitions';
 
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
-export async function fetchProgram(id: number): Promise<ProgramName | undefined> {
+export async function fetchProgram(id: string): Promise<ProgramName | undefined> {
   // Inicializa el cliente de Supabase
   const supabase = await createClient();
   try {
@@ -21,7 +21,7 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 
     // Obtener el programa actual del atleta
     const { data: returnedProgram, error: programDataError } = await supabase
-    .from('programs') // Solo especificamos el tipo de fila
+    .from('programs')
     .select('program_name')
     .eq('program_id', programId)
     .single();
@@ -42,7 +42,7 @@ export async function fetchProgram(id: number): Promise<ProgramName | undefined>
 
 // Busca la sesión que tiene en curso a partir de athlete_programs, y devuelve el nombre de la sesión y los ejercicios correspondientes
 export async function fetchCurrentSession(id: number): Promise<SessionData | undefined> {
-  // Inicializa el cliente de Supabase
+
   const supabase = await createClient();
   try {
     // Obtener el programa y la sesión actual del atleta
@@ -146,7 +146,7 @@ export async function getGymIdByGymCode(gymCode: string) {
   }
 }
 
-export async function getMyAthletes(gymId: string) {
+export async function getMyAthletes(gymId: string): Promise<Athlete[] | null> {
   const supabase = await createClient()
 
   try{
@@ -163,6 +163,6 @@ export async function getMyAthletes(gymId: string) {
     return data;
   } catch (error) {
     console.log('Error recuperando los atletas del gimnasio')
-    return undefined;
+    return null;
   }
 }
