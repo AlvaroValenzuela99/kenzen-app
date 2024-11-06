@@ -18,7 +18,7 @@ export default async function PrivatePage() {
   }
 
   // ID ficticio y hardcodeado, solo para desarrollo inicial
-  const programName = await fetchProgram(1);
+  //const programName = await fetchProgram(1);
 
   const currentSession = await fetchCurrentSession(1);
   const exercises = currentSession?.exercises;
@@ -32,7 +32,7 @@ export default async function PrivatePage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Próxima sesión de {programName?.program_name}</CardTitle>
+              <CardTitle>Próxima sesión de {/*programName?.program_name*/}</CardTitle>
               <CardDescription>Ejercicios para hoy</CardDescription>
             </CardHeader>
             <CardContent>
