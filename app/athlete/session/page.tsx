@@ -14,7 +14,7 @@ export default async function PrivatePage() {
     redirect('/login')
   }
 
-  const currentSession = await fetchCurrentSession(1);
+  const currentSession = await fetchCurrentSession(data.user.id);
   const exercises = currentSession?.exercises ?? [];
 
   revalidatePath('/athlete/session')

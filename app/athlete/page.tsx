@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { fetchProgram, fetchCurrentSession } from "@/lib/data";
+import { fetchProgram, fetchCurrentSession, fetchAthleteInfo } from "@/lib/data";
 import { revalidatePath } from 'next/cache';
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -17,22 +17,26 @@ export default async function PrivatePage() {
     redirect('/login')
   }
 
-  // ID ficticio y hardcodeado, solo para desarrollo inicial
-  //const programName = await fetchProgram(1);
+  //Obtener nombre del programa
+  const programName = await fetchProgram(data.user.id);
 
-  const currentSession = await fetchCurrentSession(1);
+  //Obtener datos de la sesión actual
+  const currentSession = await fetchCurrentSession(data.user.id);
   const exercises = currentSession?.exercises;
+
+  //Obtener datos del atleta
+  const { first_name } = await fetchAthleteInfo(data.user.id)
 
   revalidatePath('/athlete')
 
   return (
     <main>
       <div className="container mx-auto px-4 md:px-6">
-        <h1 className="text-3xl font-bold mb-6">Bienvenido, Atleta</h1>
+        <h1 className="text-3xl font-bold mb-6">Bienvenido, {first_name}</h1>
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Próxima sesión de {/*programName?.program_name*/}</CardTitle>
+              <CardTitle>Próxima sesión de: <span className="text-cyan-500">{programName?.program_name}</span></CardTitle>
               <CardDescription>Ejercicios para hoy</CardDescription>
             </CardHeader>
             <CardContent>

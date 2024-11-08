@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { Athlete, Exercise, Program, ProgramName, SessionData } from './definitions';
 
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
-export async function fetchProgram(id: string): Promise<ProgramName | undefined> {
+export async function fetchProgram(athleteId: string): Promise<ProgramName | undefined> {
   // Inicializa el cliente de Supabase
   const supabase = await createClient();
   try {
@@ -10,7 +10,7 @@ export async function fetchProgram(id: string): Promise<ProgramName | undefined>
     const { data: athleteProgram, error: programError } = await supabase
       .from('athlete_programs')
       .select('program_id')
-      .eq('athlete_id', id)
+      .eq('athlete_id', athleteId)
       .single();
 
     if (programError) {
@@ -41,7 +41,7 @@ export async function fetchProgram(id: string): Promise<ProgramName | undefined>
 }
 
 // Busca la sesión que tiene en curso a partir de athlete_programs, y devuelve el nombre de la sesión y los ejercicios correspondientes
-export async function fetchCurrentSession(id: number): Promise<SessionData | undefined> {
+export async function fetchCurrentSession(athleteId: string): Promise<SessionData | undefined> {
 
   const supabase = await createClient();
   try {
@@ -49,7 +49,7 @@ export async function fetchCurrentSession(id: number): Promise<SessionData | und
     const { data: currentProgram, error: currentProgramError } = await supabase
       .from('athlete_programs')
       .select('program_id, current_session')
-      .eq('athlete_program_id', id)
+      .eq('athlete_id', athleteId)
       .single();
 
     if (currentProgramError) {
@@ -211,7 +211,7 @@ export async function assignOrUpdateProgramToAthlete(athleteId: string, programI
         .update({
           program_id: programId,
           completed: 0,
-          current_session: 0
+          current_session: 1
         })
         .eq('athlete_id', athleteId);
 
@@ -243,7 +243,7 @@ export async function assignOrUpdateProgramToAthlete(athleteId: string, programI
         athlete_id: athleteId, 
         program_id: programId,
         completed: 0,
-        current_session: 0
+        current_session: 1
       });
 
     if (insertError) {
@@ -269,5 +269,26 @@ export async function assignOrUpdateProgramToAthlete(athleteId: string, programI
   } catch (error) {
     console.log('Error al asignar o actualizar el programa del atleta:', error);
     return null;
+  }
+}
+
+export async function fetchAthleteInfo(athleteId: string) {
+  const supabase = await createClient()
+
+  try {
+    const { data, error } = await supabase
+      .from('athletes')
+      .select()
+      .eq('athlete_id', athleteId)
+      .single()
+    
+    if (error) {
+      console.log('Error recuperando los datos del atleta:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.log('Error inesperado al recuperar los datos del atleta')
   }
 }
