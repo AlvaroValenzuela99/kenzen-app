@@ -1,5 +1,5 @@
 import GymDashboard from "@/components/ui/gym-dashboard";
-import { fetchProgram, getMyAthletes } from "@/lib/data";
+import { fetchProgram, getAllPrograms, getMyAthletes } from "@/lib/data";
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 
@@ -13,8 +13,11 @@ export default async function PrivatePage() {
     redirect('/login')
   }
 
-  // Obtener atletas del gimnasio
+  // Obtener atletas del gimnasio y pasárselo como prop a GymDashboard
   const athletes = await getMyAthletes(data.user.id)
+
+  //Obtener todos los programas de ejercicio y pasárselo como prop a GymDashboard
+  const allPrograms = await getAllPrograms()
 
   //Obtener programas para cada atleta
   const athletesWithPrograms = await Promise.all(
@@ -25,7 +28,7 @@ export default async function PrivatePage() {
   )
     return (
       <>
-        <GymDashboard gymData={data?.user} athletes={athletesWithPrograms} />
+        <GymDashboard gymData={data?.user} athletes={athletesWithPrograms} allPrograms={allPrograms} />
       </>
     )
 }

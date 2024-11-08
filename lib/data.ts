@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-import { Athlete, Exercise, ProgramName, SessionData } from './definitions';
+import { Athlete, Exercise, Program, ProgramName, SessionData } from './definitions';
 
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(id: string): Promise<ProgramName | undefined> {
@@ -126,7 +126,7 @@ export async function getGymIdByGymCode(gymCode: string) {
   // Inicializa el cliente de Supabase
   const supabase = await createClient();
 
-  try{
+  try {
     const {data, error} = await supabase
     .from('gyms')
     .select('gym_id')
@@ -141,7 +141,7 @@ export async function getGymIdByGymCode(gymCode: string) {
     return data?.gym_id || null
 
   } catch (error) {
-    console.log('Error recuperando el gimnasio por código de gimnasio:', error)
+    console.log('Error inesperado al recuperar el gimnasio por código de gimnasio:', error)
     return null;
   }
 }
@@ -149,7 +149,7 @@ export async function getGymIdByGymCode(gymCode: string) {
 export async function getMyAthletes(gymId: string): Promise<Athlete[] | null> {
   const supabase = await createClient()
 
-  try{
+  try {
     const {data, error} = await supabase
     .from('athletes')
     .select()
@@ -162,7 +162,112 @@ export async function getMyAthletes(gymId: string): Promise<Athlete[] | null> {
 
     return data;
   } catch (error) {
-    console.log('Error recuperando los atletas del gimnasio')
+    console.log('Error inesperado al recuperar los atletas del gimnasio')
+    return null;
+  }
+}
+
+export async function getAllPrograms(): Promise<Program[] | null> {
+  const supabase = await createClient()
+
+  try {
+    const {data, error} = await supabase
+    .from('programs')
+    .select()
+
+    if (error){
+      console.log('Error recuperando los programas de ejercicio', error)
+      return null
+    }
+
+    return data
+  } catch (error){
+    console.log('Error inesperado al recuperar los programas de ejercicio')
+    return null
+  }
+}
+
+export async function assignOrUpdateProgramToAthlete(athleteId: string, programId: number) {
+  const supabase = await createClient();
+
+  try {
+    // Verificamos si ya existe un registro en la tabla athlete_programs
+    const { data: existingProgram, error: checkError } = await supabase
+      .from('athlete_programs')
+      .select('program_id')
+      .eq('athlete_id', athleteId)
+      .single(); // Queremos un solo registro
+
+    // Si hay un error al realizar la consulta, lo manejamos
+    if (checkError && checkError.code !== 'PGRST116') {  // Error 'PGRST116' significa "No se encontró el registro"
+      console.log('Error al verificar el programa:', checkError);
+      return null;
+    }
+
+    // Si el programa ya existe, actualizamos
+    if (existingProgram) {
+      const { data: updatedProgram, error: updateError } = await supabase
+        .from('athlete_programs')
+        .update({
+          program_id: programId,
+          completed: 0,
+          current_session: 0
+        })
+        .eq('athlete_id', athleteId);
+
+      if (updateError) {
+        console.log('Error actualizando el programa:', updateError);
+        return null;
+      }
+
+      // Después de actualizar, obtenemos el nombre del programa
+      const { data: programData, error: programError } = await supabase
+        .from('programs')
+        .select('program_name')
+        .eq('program_id', programId)
+        .single();
+
+      if (programError) {
+        console.log('Error recuperando el programa:', programError);
+        return null;
+      }
+      
+      console.log('Actualizando el atleta al programa: ', programData?.program_name )
+      return { program_name: programData?.program_name };
+    } 
+
+    // Si no existe el registro, insertamos un nuevo programa
+    const { data: insertData, error: insertError } = await supabase
+      .from('athlete_programs')
+      .insert({ 
+        athlete_id: athleteId, 
+        program_id: programId,
+        completed: 0,
+        current_session: 0
+      });
+
+    if (insertError) {
+      console.log('Error insertando el programa:', insertError);
+      return null;
+    }
+
+    // Después de insertar, obtenemos el nombre del programa
+    const { data: programData, error: programError } = await supabase
+      .from('programs')
+      .select('program_name')
+      .eq('program_id', programId)
+      .single();
+
+    if (programError) {
+      console.log('Error recuperando el programa:', programError);
+      return null;
+    }
+
+    console.log('Asignando al atleta el programa: ', programData?.program_name )
+    return { program_name: programData?.program_name };
+
+  } catch (error) {
+    console.log('Error al asignar o actualizar el programa del atleta:', error);
     return null;
   }
 }

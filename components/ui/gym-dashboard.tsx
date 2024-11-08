@@ -5,24 +5,48 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { Button } from './button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card'
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from './select'
-import { AthleteWithProgram, ProgramName } from '@/lib/definitions'
+import { AthleteWithProgram, Program } from '@/lib/definitions'
 import { User } from '@supabase/supabase-js'
 
-export default function GymDashboard({gymData, athletes} : {gymData: User; athletes: AthleteWithProgram[] | null}) {
+export default function GymDashboard({gymData, athletes, allPrograms} : {
+  gymData: User; 
+  athletes: AthleteWithProgram[] | null;
+  allPrograms: Program[] | null;
+}) {
 
   const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithProgram | null>(null)
   const [athleteList, setAthleteList] = useState<AthleteWithProgram[] | null>(athletes)
 
-  const handleProgramChange = (athleteId: string, newProgram: ProgramName) => {
-    setAthleteList((prevList) =>
-      prevList
-        ? prevList.map((athlete) =>
-            athlete.athlete_id === athleteId
-              ? { ...athlete, program: newProgram }
+  const handleProgramChange = async (athleteId: string, newProgramId: number) => {
+    try {
+      const response = await fetch('/api/assignProgram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          athleteId, 
+          programId: newProgramId
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        //Si se asigna exitosamente el programa, actualiza el estado del componente
+        setAthleteList((prevList) =>
+          prevList
+            ? prevList.map((athlete) =>
+              athlete.athlete_id === athleteId
+              ? { ...athlete, program: {program_name: result.program.program_name} }
               : athlete
-          )
-        : null
-    )
+            )
+            : null
+        )
+      }
+    } catch (error) {
+
+    }
   }
   
   return (
@@ -45,15 +69,14 @@ export default function GymDashboard({gymData, athletes} : {gymData: User; athle
               <CardContent className="p-4 pt-0">
                 <div className="flex items-center justify-between">
                   <p className="text-sm">Programa actual: <span className="font-medium">{athlete.program?.program_name || 'No asignado'}</span></p>
-                  <Select onValueChange={(value) => handleProgramChange(athlete.athlete_id, { program_name: value } as ProgramName)}>
+                  <Select onValueChange={(value) => handleProgramChange(athlete.athlete_id, parseInt(value))}>
                     <SelectTrigger className="w-[200px]">
                       <SelectValue placeholder="Cambiar programa" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Rehabilitación de rodilla">Rehabilitación de rodilla</SelectItem>
-                      <SelectItem value="Fortalecimiento de hombro">Fortalecimiento de hombro</SelectItem>
-                      <SelectItem value="Recuperación de esguince de tobillo">Recuperación de esguince de tobillo</SelectItem>
-                      <SelectItem value="Rehabilitación de lesión lumbar">Rehabilitación de lesión lumbar</SelectItem>
+                      {allPrograms?.map((program) => (
+                        <SelectItem key={program.program_id} value={program.program_id.toString()}>{program.program_name}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
