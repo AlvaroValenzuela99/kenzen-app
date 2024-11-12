@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,8 +11,29 @@ import ExerciseDetails from "@/components/ui/exercise-details";
 
 
 export default function Session({ initialExercises }: { initialExercises: Exercise[] }) {
-  const [exercises, setExercises] = useState(initialExercises);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [sessionCompleted, setSessionCompleted] = useState(false);
+
+  // Cargar estado desde localStorage al inicio
+  useEffect(() => {
+    const storedExercises = localStorage.getItem("sessionExercises")
+    if (storedExercises) {
+      setExercises(JSON.parse(storedExercises));
+    } else{
+      const exercisesWithCompletion = initialExercises.map(exercise => ({
+        ...exercise,
+        completed: false // Inicializamos como false si no está definido
+      }));
+      setExercises(exercisesWithCompletion);
+    }
+  }, [initialExercises])
+
+  // Guardar estado en localStorage cada vez que cambien los ejercicios
+  useEffect(() => {
+    if (exercises.length > 0) {
+      localStorage.setItem("sessionExercises", JSON.stringify(exercises));
+    }
+  }, [exercises]);
 
   // Toggle para marcar/desmarcar un ejercicio como completado
   const toggleExercise = (id: number) => {
@@ -24,6 +45,7 @@ export default function Session({ initialExercises }: { initialExercises: Exerci
   // Marcar la sesión como completada
   const completeSession = () => {
     setSessionCompleted(true);
+    localStorage.removeItem("sessionExercises"); // Limpiar estado después de completar la sesión
   };
 
   const completedExercises = exercises.filter(exercise => exercise.completed).length

@@ -284,11 +284,34 @@ export async function fetchAthleteInfo(athleteId: string) {
     
     if (error) {
       console.log('Error recuperando los datos del atleta:', error)
-      return null
+      return null;
     }
 
-    return data
+    return data;
   } catch (error) {
     console.log('Error inesperado al recuperar los datos del atleta')
+    return null;
+  }
+}
+
+export async function setSessionAsCompleted(athleteId: string) {
+  const supabase = await createClient()
+
+  try {
+    const { data: updatedSession, error: updateError } = await supabase
+     .from('athlete_programs')
+     .update({ current_session: supabase.rpc('increment_column', {amount: 1}) })
+     .eq('athlete_id', athleteId)
+
+     if (updateError) {
+      console.log('Error actualizando la sesion actual:', updateError);
+      return null;
+     }
+
+     console.log('Marcando sesión completada y pasando a la siguente')
+     return updatedSession;
+  } catch (error) {
+    console.log('Error inesperado al marcar la sesión como completada')
+    return null;
   }
 }
