@@ -45,7 +45,7 @@ export default function GymDashboard({gymData, athletes, allPrograms} : {
         )
       }
     } catch (error) {
-
+      console.log('Error inesperado al intentar actualizar el programa del atleta desde la UI')
     }
   }
   

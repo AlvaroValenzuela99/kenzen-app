@@ -23,7 +23,7 @@ export default async function PrivatePage() {
     <main>
       <div className="container mx-auto px-4 md:px-6">
         <h1 className="text-3xl font-bold mb-6">Tu sesión de hoy:</h1>
-        <Session initialExercises={exercises}/>
+        <Session athleteData={data?.user} initialExercises={exercises}/>
       </div>
     </main>
   )

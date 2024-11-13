@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { fetchProgram, fetchCurrentSession, fetchAthleteInfo } from "@/lib/data";
+import { fetchProgram, fetchCurrentSession, fetchAthleteInfo, getProgramProgress } from "@/lib/data";
 import { revalidatePath } from 'next/cache';
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -18,14 +18,20 @@ export default async function PrivatePage() {
   }
 
   //Obtener nombre del programa
-  const programName = await fetchProgram(data.user.id);
+  const programName = await fetchProgram(data.user.id)
 
   //Obtener datos de la sesión actual
-  const currentSession = await fetchCurrentSession(data.user.id);
+  const currentSession = await fetchCurrentSession(data.user.id)
   const exercises = currentSession?.exercises;
 
   //Obtener datos del atleta
   const { first_name } = await fetchAthleteInfo(data.user.id)
+
+  //Obtener número de sesión actual y sesiones totales del programa
+  const programProgress = await getProgramProgress(data.user.id)
+
+  //Con los datos de programProgress calculamos el % de progreso
+  const progressPercentage = programProgress?.currentSessionNumber * 100 / programProgress?.totalSessions
 
   revalidatePath('/athlete')
 
@@ -58,13 +64,12 @@ export default async function PrivatePage() {
           <Card>
             <CardHeader>
               <CardTitle>Tu progreso</CardTitle>
-              <CardDescription>Has completado 0 de 10 sesiones</CardDescription>
+              <CardDescription>Has completado { programProgress?.currentSessionNumber } de { programProgress?.totalSessions } sesiones</CardDescription>
             </CardHeader>
             <CardContent>
-              <Progress value={0} className="w-full" />
+              <Progress value={progressPercentage} className="w-full" />
             </CardContent>
           </Card>
-
         </div>
       </div>
     </main>

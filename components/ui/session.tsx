@@ -8,11 +8,18 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle } from "lucide-react";
 import { Exercise } from "@/lib/definitions";
 import ExerciseDetails from "@/components/ui/exercise-details";
+import { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 
-export default function Session({ initialExercises }: { initialExercises: Exercise[] }) {
+export default function Session({ athleteData, initialExercises }: {
+  athleteData: User; 
+  initialExercises: Exercise[];
+}) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [sessionCompleted, setSessionCompleted] = useState(false);
+  const router = useRouter();
+
 
   // Cargar estado desde localStorage al inicio
   useEffect(() => {
@@ -43,9 +50,29 @@ export default function Session({ initialExercises }: { initialExercises: Exerci
   };
 
   // Marcar la sesión como completada
-  const completeSession = () => {
-    setSessionCompleted(true);
-    localStorage.removeItem("sessionExercises"); // Limpiar estado después de completar la sesión
+  const completeSession = async (athleteId: string) => {
+    try {
+      setSessionCompleted(true);
+      localStorage.removeItem("sessionExercises"); // Limpiar estado después de completar la sesión
+      const response = await fetch('/api/sessionCompleted', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          athleteId
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        console.log('Sesión completada con éxito');
+        router.push('/athlete')
+      }
+    } catch (error) {
+      console.log('Error inesperado al intentar actualizar la sesión desde la UI')
+    }   
   };
 
   const completedExercises = exercises.filter(exercise => exercise.completed).length
@@ -89,7 +116,7 @@ export default function Session({ initialExercises }: { initialExercises: Exerci
       <div className="mt-8 text-center">
         <Button
           size="lg"
-          onClick={completeSession}
+          onClick={ () => completeSession(athleteData.id) }
           disabled={completedExercises !== exercises.length || sessionCompleted}
         >
           {sessionCompleted ? (
