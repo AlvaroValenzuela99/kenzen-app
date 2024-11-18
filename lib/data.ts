@@ -298,31 +298,39 @@ export async function setSessionAsCompleted(athleteId: string) {
   const supabase = await createClient()
 
   try {
-    const { data: currentSessionData, error: selectError } = await supabase
-      .from('athlete_programs')
-      .select('current_session')
-      .eq('athlete_id', athleteId)
-      .single()
+    // Recuperar el progreso del programa
+    const programProgress = await getProgramProgress(athleteId)
 
-    if (selectError) {
-      console.log('Error recuperando la sesión actual del atleta:', selectError)
-      return null
+    // Verificar si `programProgress` es nulo
+    if (!programProgress) {
+      console.log("No se pudo recuperar el progreso del programa.");
+      return null;
     }
 
-    const currentSession = currentSessionData?.current_session
+    const { currentSessionNumber, totalSessions } = programProgress
 
+    let updateData
+
+    // Verificar si la sesión actual es menor al total de sesiones
+    if (currentSessionNumber < totalSessions) {
+      updateData = { current_session: currentSessionNumber + 1 };
+    } else {
+      updateData = { completed: 1 };
+    }
+
+    // Actualizar la tabla `athlete_programs`
     const { data: updatedSession, error: updateError } = await supabase
-     .from('athlete_programs')
-     .update({ current_session: currentSession + 1 })
-     .eq('athlete_id', athleteId)
-     .select()
+      .from('athlete_programs')
+      .update(updateData)
+      .eq('athlete_id', athleteId)
+      .select();
 
      if (updateError) {
       console.log('Error actualizando la sesion actual:', updateError);
       return null;
      }
-     console.log('Sesión actualizada:', updatedSession);
-     console.log('Marcando sesión completada y pasando a la siguente')
+
+     console.log('Sesión actualizada o programa marcado como completado:', updatedSession);
      return updatedSession;
   } catch (error) {
     console.log('Error inesperado al marcar la sesión como completada:', error)
@@ -337,7 +345,7 @@ export async function getProgramProgress(athleteId: string) {
     // Recuperamos el número de sesión actual
     const { data: athleteProgram, error: currentSessionError } = await supabase
       .from('athlete_programs')
-      .select('current_session, program_id')
+      .select('current_session, program_id, completed')
       .eq('athlete_id', athleteId)
       .single()
 
@@ -346,8 +354,9 @@ export async function getProgramProgress(athleteId: string) {
       return null
     }
 
-    // Extramos current_session y program_id
-    const { current_session: currentSessionNumber, program_id: programId } = athleteProgram
+    // Extraemos current_session y program_id
+    const { current_session: currentSessionNumber, program_id: programId, completed: programCompleted } = athleteProgram
+
     // Recuperamos el número total de sesiones que tiene ese programa
     const { data: totalSessionsData, error: totalSessionsError } = await supabase
       .from('programs')
@@ -363,7 +372,7 @@ export async function getProgramProgress(athleteId: string) {
     const totalSessions = totalSessionsData.sessions
 
     // Retorna tanto el número de sesión actual como el total de sesiones
-    return { currentSessionNumber, totalSessions }
+    return { currentSessionNumber, totalSessions, programCompleted }
   } catch (error) {
     console.log('Error inesperado al recuperar el número de sesión actual del atleta')
     return null
