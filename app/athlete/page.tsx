@@ -30,8 +30,11 @@ export default async function PrivatePage() {
   //Obtener número de sesión actual y sesiones totales del programa
   const programProgress = await getProgramProgress(data.user.id)
 
-  //Con los datos de programProgress calculamos el % de progreso
-  const progressPercentage = programProgress?.currentSessionNumber * 100 / programProgress?.totalSessions
+  //Sesiones completadas = sesión actual - 1
+  const completedSessions = programProgress?.currentSessionNumber - 1
+
+  //Calculamos el % de progreso en el pograma asignado
+  const progressPercentage = completedSessions * 100 / programProgress?.totalSessions
 
   revalidatePath('/athlete')
 
@@ -64,7 +67,7 @@ export default async function PrivatePage() {
           <Card>
             <CardHeader>
               <CardTitle>Tu progreso</CardTitle>
-              <CardDescription>Has completado { programProgress?.currentSessionNumber } de { programProgress?.totalSessions } sesiones</CardDescription>
+              <CardDescription>Has completado { completedSessions } de { programProgress?.totalSessions } sesiones</CardDescription>
             </CardHeader>
             <CardContent>
               <Progress value={progressPercentage} className="w-full" />

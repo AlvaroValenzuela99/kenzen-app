@@ -20,7 +20,6 @@ export default function Session({ athleteData, initialExercises }: {
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const router = useRouter();
 
-
   // Cargar estado desde localStorage al inicio
   useEffect(() => {
     const storedExercises = localStorage.getItem("sessionExercises")
@@ -69,6 +68,7 @@ export default function Session({ athleteData, initialExercises }: {
       if (result.success) {
         console.log('Sesión completada con éxito');
         router.push('/athlete')
+        router.refresh()
       }
     } catch (error) {
       console.log('Error inesperado al intentar actualizar la sesión desde la UI')
