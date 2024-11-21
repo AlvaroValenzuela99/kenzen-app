@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { signOut } from '@/lib/actions';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
-import { Activity, BarChart, Menu, Settings, Users } from 'lucide-react'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
+import { Activity, BarChart, Menu, Settings, Users, LogOut } from 'lucide-react'
 import { Button } from './button'
 
 export default function SideNav() {
@@ -15,7 +15,7 @@ export default function SideNav() {
             <span>Kenzen</span>
           </Link>
         </div>
-        <nav className="flex-1 p-4">
+        <nav className="flex-1 flex-col p-4">
           <ul className="space-y-2">
             <li>
               <Link href="/gym" className="flex items-center space-x-2 p-2 rounded-lg bg-gray-100 text-gray-900">
@@ -37,6 +37,12 @@ export default function SideNav() {
             </li>
           </ul>
         </nav>
+        <form action={signOut} method='post' className='mt-auto p-4'>
+          <button type='submit' className='w-full flex items-center space-x-2 hover:bg-red-600 hover:text-white p-2 rounded-lg'>
+            <LogOut className='h-5 w-5'/> 
+            <span>Cerrar sesión</span>
+          </button>
+        </form>
       </aside>
 
       {/* Mobile sidebar */}
@@ -46,7 +52,7 @@ export default function SideNav() {
             <Menu className="h-6 w-6" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64">
+        <SheetContent side="left" className="w-64 flex flex-col">
           <SheetHeader>
             <SheetTitle>
               <Link href="/gym" className="flex items-center space-x-2 text-xl font-bold">
@@ -77,6 +83,12 @@ export default function SideNav() {
               </li>
             </ul>
           </nav>
+          <form action={signOut} className='mt-auto'>
+            <button type='submit' className='w-full flex items-center space-x-2 hover:bg-red-600 hover:text-white p-2 rounded-lg'>
+              <LogOut className='h-5 w-5'/> 
+              <span>Cerrar sesión</span>
+            </button>
+          </form>
         </SheetContent>
       </Sheet>
     </>

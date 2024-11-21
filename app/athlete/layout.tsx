@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             Perfil
           </Link>
           {/* Formulario que invoca la acción de cierre de sesión */}
-          <form action={signOut} className="flex items-center">
+          <form action={signOut} method="post" className="flex items-center">
             <button type="submit" className="text-sm font-medium hover:underline underline-offset-4">
               Cerrar sesión
             </button>
