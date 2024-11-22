@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './sh
 import { Activity, BarChart, Menu, Settings, Users, LogOut } from 'lucide-react'
 import { Button } from './button'
 
-export default function SideNav() {
+export default function GymSideNav() {
   return (
     <>
       {/* Sidebar for larger screens */}
