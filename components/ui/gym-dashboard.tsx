@@ -53,7 +53,7 @@ export default function GymDashboard({gymData, athletes, allPrograms} : {
     <>   
       {/* Main content */}
       <main className="flex-1 p-6 overflow-y-auto">
-        <h1 className="text-2xl font-bold mb-6">Mis Atletas</h1>
+        <h1 className="text-2xl font-bold mt-10 md:mt-0 mb-6">Mis Atletas</h1>
         <div className="space-y-4">
           {athleteList?.map((athlete) => (
             <Card key={athlete.athlete_id} className="w-full">
@@ -61,7 +61,6 @@ export default function GymDashboard({gymData, athletes, allPrograms} : {
                 <div className="flex justify-between items-center">
                   <div>
                     <CardTitle className="text-lg">{`${athlete.first_name} ${athlete.last_name}`}</CardTitle>
-                    <CardDescription className="text-sm">ID: {athlete.athlete_id}</CardDescription>
                   </div>
                   <Button size="sm" onClick={() => setSelectedAthlete(athlete)}>Ver detalles</Button>
                 </div>
@@ -70,7 +69,7 @@ export default function GymDashboard({gymData, athletes, allPrograms} : {
                 <div className="flex items-center justify-between">
                   <p className="text-sm">Programa actual: <span className="font-medium">{athlete.program?.program_name || 'No asignado'}</span></p>
                   <Select onValueChange={(value) => handleProgramChange(athlete.athlete_id, parseInt(value))}>
-                    <SelectTrigger className="w-[200px]">
+                    <SelectTrigger className="md:w-[200px]">
                       <SelectValue placeholder="Cambiar programa" />
                     </SelectTrigger>
                     <SelectContent>
@@ -95,7 +94,6 @@ export default function GymDashboard({gymData, athletes, allPrograms} : {
               <SheetDescription>Detalles del atleta</SheetDescription>
             </SheetHeader>
             <div className="py-4">
-              <p className="mb-2">ID: {selectedAthlete.athlete_id}</p>
               <p className="mb-2">Programa actual: {selectedAthlete.program?.program_name || 'No asignado'}</p>
             </div>
             <Button onClick={() => setSelectedAthlete(null)}>Cerrar</Button>

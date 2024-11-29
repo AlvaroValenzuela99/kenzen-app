@@ -1,23 +1,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, TrendingUp, CheckCircle, Star, Dumbbell, BarChart, Clock } from "lucide-react"
+import { Users, TrendingUp, CheckCircle, Star, Dumbbell, BarChart, Clock, Menu, Activity } from "lucide-react"
 import Image from 'next/image';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Page() {
     return (
       <div className="flex flex-col min-h-screen">
-        <header className="px-4 lg:px-6 h-14 flex items-center">
+        <header className="sticky top-0 z-50 px-4 lg:px-6 h-14 flex items-center border-b bg-white/80 backdrop-blur-sm">
           <Link className="flex items-center justify-center" href="/">
             <Image 
               src="/kenzen.png"
               width={94}
               height={27}
-              className="hidden md:block"
+              className="block"
               alt="Kenzen App Logo"
             />
           </Link>
-          <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+          <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
             <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
               Características
             </Link>
@@ -34,6 +35,50 @@ export default function Page() {
               <Link href="/login">Iniciar Sesión</Link>
             </Button>
           </nav>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="ml-auto md:hidden">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Abrir menú</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetHeader>
+                <SheetTitle className="text-left">
+                  <Link href="/" className="flex items-center">
+                    <Activity className="h-6 w-6 text-primary" />
+                    <span className="font-bold ml-2 text-lg">Kenzen</span>
+                  </Link>
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-4 mt-8">
+                <Link 
+                  className="text-lg font-medium hover:text-primary transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
+                  href="#features"
+                >
+                  Características
+                </Link>
+                <Link 
+                  className="text-lg font-medium hover:text-primary transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
+                  href="#benefits"
+                >
+                  Beneficios
+                </Link>
+                <Link 
+                  className="text-lg font-medium hover:text-primary transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
+                  href="#testimonials"
+                >
+                  Testimonios
+                </Link>
+                <Link 
+                  className="text-lg font-medium hover:text-primary transition-colors px-2 py-1 rounded-md hover:bg-gray-100"
+                  href="#pricing"
+                >
+                  Precios
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </header>
         <main className="flex-1">
           <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-cover bg-center" style={{backgroundImage: 'url("/placeholder.svg?height=600&width=800")'}}>
