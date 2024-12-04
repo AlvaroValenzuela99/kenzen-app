@@ -2,15 +2,18 @@ import { Exercise } from "@/lib/definitions";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dumbbell, PlayCircle, Info } from "lucide-react";
+import { Dumbbell, PlayCircle, Info, CheckCircle } from "lucide-react";
 
-export default function ExerciseDetails({ exercise }: { exercise: Exercise }) {
+export default function ExerciseDetails({ exercise, onExerciseCompleted }: { 
+  exercise: Exercise;
+  onExerciseCompleted: (id: number) => void;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full">Ver detalles</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="max-w-full h-full md:max-w-[50vw] md:max-h-[95vh] md:h-auto overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{exercise.exercise_name}</DialogTitle>
           <DialogDescription>Detalles e instrucciones del ejercicio</DialogDescription>
@@ -65,6 +68,22 @@ export default function ExerciseDetails({ exercise }: { exercise: Exercise }) {
               </CardDescription>
             </CardFooter>
           </Card>
+          <div className="p-4 border-t">
+            <Button 
+              className="w-full" 
+              variant={exercise.completed ? "outline" : "default"}
+              onClick={() => onExerciseCompleted(exercise.exercise_id)}
+            >
+              {exercise.completed ? (
+                <>
+                  <CheckCircle className="mr-2 h-4 w-4"/>
+                  Ejercicio completado
+                </>
+              ) : (
+                'Marcar como completado'
+              )}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

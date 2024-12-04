@@ -76,6 +76,11 @@ export default function Home() {
               >
                 Unirme como gimnasio
               </Link>
+              <div className="mt-auto pt-4 border-t">
+                <Button asChild size="sm" className=" w-full text-md font-medium">
+                  <Link href="/login">Iniciar Sesión</Link>
+                </Button>
+              </div>
             </nav>
           </SheetContent>
         </Sheet>

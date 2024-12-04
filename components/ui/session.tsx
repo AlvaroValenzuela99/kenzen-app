@@ -95,7 +95,7 @@ export default function Session({ athleteData, initialExercises }: {
       {exercises.map((exercise) => (
               <Card key={exercise.exercise_id} className={exercise.completed ? 'bg-green-50 dark:bg-green-900' : ''}>
                 <CardHeader>
-                  <CardTitle className="flex items-center">
+                  <CardTitle onClick={() => toggleExercise(exercise.exercise_id)} className="flex items-center">
                     <Checkbox
                       checked={exercise.completed}
                       onCheckedChange={() => toggleExercise(exercise.exercise_id)}
@@ -108,7 +108,7 @@ export default function Session({ athleteData, initialExercises }: {
                   <p>Descripción del ejercicio e instrucciones detalladas irían aquí.</p>
                 </CardContent>
                 <CardFooter>
-                  <ExerciseDetails exercise={exercise}></ExerciseDetails>
+                  <ExerciseDetails onExerciseCompleted={toggleExercise} exercise={exercise}></ExerciseDetails>
                 </CardFooter>
               </Card>
             ))}
