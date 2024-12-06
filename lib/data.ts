@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-import { Athlete, Exercise, Program, ProgramName, SessionData } from './definitions';
+import { Athlete, Exercise, Program, ProgramName, ProgramProgress, SessionData } from './definitions';
 
 // Devuelve el programa que tiene asignado el atleta a través de la tabla athlete_programs
 export async function fetchProgram(athleteId: string): Promise<ProgramName | undefined> {
@@ -311,11 +311,17 @@ export async function setSessionAsCompleted(athleteId: string) {
 
     let updateData
 
+    // Obtener la fecha local como una cadena en formato YYYY-MM-DD
+    const localDateString = new Date().toLocaleDateString('en-CA');
+
+    // Convertir la cadena a un objeto Date
+    const localDate = new Date(localDateString);
+
     // Verificar si la sesión actual es menor al total de sesiones
     if (currentSessionNumber < totalSessions) {
-      updateData = { current_session: currentSessionNumber + 1 };
+      updateData = { current_session: currentSessionNumber + 1, last_session: localDate };
     } else {
-      updateData = { completed: 1 };
+      updateData = { completed: 1, last_session: localDate };
     }
 
     // Actualizar la tabla `athlete_programs`
@@ -338,24 +344,24 @@ export async function setSessionAsCompleted(athleteId: string) {
   }
 }
 
-export async function getProgramProgress(athleteId: string) {
+export async function getProgramProgress(athleteId: string): Promise<ProgramProgress | undefined> {
   const supabase = await createClient()
 
   try {
     // Recuperamos el número de sesión actual
     const { data: athleteProgram, error: currentSessionError } = await supabase
       .from('athlete_programs')
-      .select('current_session, program_id, completed')
+      .select('current_session, program_id, completed, last_session')
       .eq('athlete_id', athleteId)
       .single()
 
     if (currentSessionError) {
       console.log('Error recuperando la sesión actual del atleta:', currentSessionError)
-      return null
+      return undefined
     }
 
     // Extraemos current_session y program_id
-    const { current_session: currentSessionNumber, program_id: programId, completed: programCompleted } = athleteProgram
+    const { current_session: currentSessionNumber, program_id: programId, completed: programCompleted, last_session: lastSession } = athleteProgram
 
     // Recuperamos el número total de sesiones que tiene ese programa
     const { data: totalSessionsData, error: totalSessionsError } = await supabase
@@ -366,15 +372,15 @@ export async function getProgramProgress(athleteId: string) {
       
     if (totalSessionsError) {
       console.log('Error recuperando el número total de sesiones del programa:', totalSessionsError)
-      return null
+      return undefined
     }
 
     const totalSessions = totalSessionsData.sessions
 
-    // Retorna tanto el número de sesión actual como el total de sesiones
-    return { currentSessionNumber, totalSessions, programCompleted }
+    // Retorna tanto el número de sesión actual, total de sesiones, programa completado, y última sesión completada
+    return { currentSessionNumber, totalSessions, programCompleted, lastSession }
   } catch (error) {
     console.log('Error inesperado al recuperar el número de sesión actual del atleta')
-    return null
+    return undefined
   }
 }

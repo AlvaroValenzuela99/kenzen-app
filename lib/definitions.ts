@@ -4,6 +4,7 @@ export type AthleteProgram = {
   program_id: number;
   completed: number;
   current_session: number;
+  last_session: Date;
 }
 
 export type Program = {
@@ -49,6 +50,14 @@ export type Athlete = {
   gym_id: string;
 }
 
+export type ProgramProgress = {
+  currentSessionNumber: number;
+  totalSessions: number;
+  programCompleted: boolean;
+  lastSession: string | null;
+}
+
 export type AthleteWithProgram = Athlete & {
   program?: ProgramName | undefined;
+  progress?: ProgramProgress | undefined;
 }

@@ -1,5 +1,5 @@
 import GymDashboard from "@/components/ui/gym-dashboard";
-import { fetchProgram, getAllPrograms, getMyAthletes } from "@/lib/data";
+import { fetchProgram, getAllPrograms, getMyAthletes, getProgramProgress } from "@/lib/data";
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation";
 
@@ -23,7 +23,8 @@ export default async function PrivatePage() {
   const athletesWithPrograms = await Promise.all(
     athletes?.map(async (athlete) => {
       const program = await fetchProgram(athlete.athlete_id)
-      return { ...athlete, program }
+      const progress = await getProgramProgress(athlete.athlete_id)
+      return { ...athlete, program, progress }
     }) || []
   )
     return (

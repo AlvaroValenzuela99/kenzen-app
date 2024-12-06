@@ -31,15 +31,20 @@ export default async function PrivatePage() {
   //Obtener número de sesión actual y sesiones totales del programa
   const programProgress = await getProgramProgress(data.user.id)
 
+  const currentSessionNumber = programProgress?.currentSessionNumber ?? 0;
+  const totalSessions = programProgress?.totalSessions ?? 0;
+  const programCompleted = programProgress?.programCompleted ?? false;
+
   // Sesiones completadas: si está completado, igual a totalSessions
   const completedSessions = programProgress?.programCompleted
-    ? programProgress?.totalSessions
-    : programProgress?.currentSessionNumber - 1;
+  ? totalSessions
+  : currentSessionNumber - 1;
 
   // Progreso en porcentaje: si está completado, directamente 100%
-  const progressPercentage = programProgress?.programCompleted
-    ? 100
-    : (completedSessions * 100) / programProgress?.totalSessions;
+  const progressPercentage = programCompleted
+  ? 100
+  : (completedSessions * 100) / totalSessions;
+
 
   revalidatePath('/athlete')
 
