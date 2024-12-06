@@ -211,7 +211,8 @@ export async function assignOrUpdateProgramToAthlete(athleteId: string, programI
         .update({
           program_id: programId,
           completed: 0,
-          current_session: 1
+          current_session: 1,
+          last_session: null
         })
         .eq('athlete_id', athleteId);
 
