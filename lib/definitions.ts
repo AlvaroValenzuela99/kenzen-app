@@ -54,6 +54,8 @@ export type ProgramProgress = {
   currentSessionNumber: number;
   totalSessions: number;
   programCompleted: boolean;
+  completedSessions: number;
+  progressPercentage: number;
   lastSession: string | null;
 }
 

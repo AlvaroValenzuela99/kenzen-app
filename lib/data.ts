@@ -378,8 +378,18 @@ export async function getProgramProgress(athleteId: string): Promise<ProgramProg
 
     const totalSessions = totalSessionsData.sessions
 
+    // Sesiones completadas: si está completado, igual a totalSessions
+    const completedSessions = programCompleted 
+      ? totalSessions 
+      : currentSessionNumber - 1;
+
+    // Progreso en porcentaje: si está completado, directamente 100%
+    const progressPercentage = programCompleted
+      ? 100
+      : Math.round((completedSessions * 100) / totalSessions);
+
     // Retorna tanto el número de sesión actual, total de sesiones, programa completado, y última sesión completada
-    return { currentSessionNumber, totalSessions, programCompleted, lastSession }
+    return { currentSessionNumber, totalSessions, programCompleted, completedSessions, progressPercentage, lastSession }
   } catch (error) {
     console.log('Error inesperado al recuperar el número de sesión actual del atleta')
     return undefined

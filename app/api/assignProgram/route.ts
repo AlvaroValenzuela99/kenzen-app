@@ -1,4 +1,4 @@
-import { assignOrUpdateProgramToAthlete } from "@/lib/data"
+import { assignOrUpdateProgramToAthlete, getProgramProgress } from "@/lib/data"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
@@ -11,8 +11,11 @@ export async function POST(req: Request) {
 
     const updatedProgram = await assignOrUpdateProgramToAthlete(athleteId, programId)
 
-    if (updatedProgram) {
-      return NextResponse.json({ success: true, program: updatedProgram })
+    // Una vez actualizado el programa, devolvemos el progreso del nuevo programa
+    const newProgramProgress = await getProgramProgress(athleteId)
+
+    if (updatedProgram && newProgramProgress) {
+      return NextResponse.json({ success: true, program: updatedProgram, progress: newProgramProgress })
     } else {
       return NextResponse.json({ success: false, message: 'Error al asignar o actualizar el programa' }, { status: 500 })
     }

@@ -34,17 +34,8 @@ export default async function PrivatePage() {
   const currentSessionNumber = programProgress?.currentSessionNumber ?? 0;
   const totalSessions = programProgress?.totalSessions ?? 0;
   const programCompleted = programProgress?.programCompleted ?? false;
-
-  // Sesiones completadas: si está completado, igual a totalSessions
-  const completedSessions = programProgress?.programCompleted
-  ? totalSessions
-  : currentSessionNumber - 1;
-
-  // Progreso en porcentaje: si está completado, directamente 100%
-  const progressPercentage = programCompleted
-  ? 100
-  : (completedSessions * 100) / totalSessions;
-
+  const completedSessions = programProgress?.completedSessions ?? 0;
+  const progressPercentage = programProgress?.progressPercentage ?? 0;
 
   revalidatePath('/athlete')
 
