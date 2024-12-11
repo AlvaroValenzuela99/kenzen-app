@@ -48,7 +48,7 @@ export default function GymSideNav() {
       {/* Mobile sidebar */}
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="md:hidden absolute top-4 left-4">
+          <Button variant="outline" size="icon" className="md:hidden fixed top-4 left-4 z-50">
             <Menu className="h-6 w-6" />
           </Button>
         </SheetTrigger>
