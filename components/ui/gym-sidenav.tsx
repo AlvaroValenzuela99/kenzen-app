@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { signOut } from '@/lib/actions';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './sheet'
-import { Activity, BarChart, Menu, Settings, Users, LogOut } from 'lucide-react'
+import { Activity, Menu, Users, LogOut, DumbbellIcon, BuildingIcon } from 'lucide-react'
 import { Button } from './button'
 
 export default function GymSideNav() {
@@ -25,14 +25,14 @@ export default function GymSideNav() {
             </li>
             <li>
               <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                <BarChart className="h-5 w-5" />
-                <span>Estadísticas</span>
+                <DumbbellIcon className="h-5 w-5" />
+                <span>Programas</span>
               </Link>
             </li>
             <li>
-              <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                <Settings className="h-5 w-5" />
-                <span>Configuración</span>
+              <Link href="/gym/my-gym" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                <BuildingIcon className="h-5 w-5" />
+                <span>Mi Gimnasio</span>
               </Link>
             </li>
           </ul>
@@ -71,14 +71,14 @@ export default function GymSideNav() {
               </li>
               <li>
                 <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                  <BarChart className="h-5 w-5" />
-                  <span>Estadísticas</span>
+                  <DumbbellIcon className="h-5 w-5" />
+                  <span>Programas</span>
                 </Link>
               </li>
               <li>
-                <Link href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
-                  <Settings className="h-5 w-5" />
-                  <span>Configuración</span>
+                <Link href="/gym/my-gym" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
+                  <BuildingIcon className="h-5 w-5" />
+                  <span>Mi Gimnasio</span>
                 </Link>
               </li>
             </ul>
