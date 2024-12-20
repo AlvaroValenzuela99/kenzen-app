@@ -31,8 +31,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </form>
         </nav>
       </header>
-      <AthleteSideNav />
-      <div className="flex-1 py-12 md:py-24 lg:py-32">{children}</div>
+      <div className="flex flex-1">
+        <AthleteSideNav />
+        <main className="flex-1 overflow-y-auto">
+          <div className="container mx-auto pt-14 px-4 py-8 md:py-12 lg:py-16">
+            {children}
+          </div>
+        </main>
+      </div>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 Kenzen App. Todos los derechos reservados.</p>
       </footer>

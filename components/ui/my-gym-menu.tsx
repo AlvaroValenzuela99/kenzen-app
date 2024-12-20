@@ -38,9 +38,9 @@ const initialGymData = {
 const subscriptionData = {
   isActive: true,
   plan: 'Premium',
-  startDate: '2023-01-01',
-  endDate: '2023-12-31',
-  price: 199.99,
+  startDate: '2024-12-01',
+  endDate: '2024-12-31',
+  price: 49.99,
   billingCycle: 'Mensual',
   features: ['Acceso ilimitado a la plataforma', 'Soporte prioritario', 'Análisis avanzados']
 }
